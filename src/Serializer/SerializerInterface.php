@@ -15,8 +15,8 @@ use Serializer\Schema\SchemaInterface;
 interface SerializerInterface
 {
 
-    public function serialize($data, SchemaInterface $schema, NormalizerInterface $normalizer = null);
+    public function serialize(Resource $data);
 
-    public function unserialize($data);
+    public function unserialize($data) : Resource;
 
 }
