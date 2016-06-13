@@ -6,10 +6,9 @@
  * Time: 14:55
  */
 
-namespace Serializer\Normalizer;
+namespace Serializer\Normalizer\Resource;
 
 
-class NormalizedObject
+class Resource extends AbstractResource
 {
-
 }

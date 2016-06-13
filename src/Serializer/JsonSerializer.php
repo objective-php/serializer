@@ -9,30 +9,52 @@
 namespace Serializer\Serializer;
 
 
-use Serializer\Normalizer\NormalizerInterface;
-use Serializer\Schema\SchemaInterface;
+use Serializer\Formatter\FormatterInterface;
+use Serializer\Normalizer\Resource\Resource;
+use Serializer\Normalizer\Resource\ResourceInterface;
+use Serializer\Normalizer\Resource\ResourceSet;
 
 class JsonSerializer extends AbstractSerializer
 {
 
     /**
-     * @param                          $data
-     * @param SchemaInterface          $schema
-     * @param NormalizerInterface|null $normalizer
+     * @param ResourceInterface $data
      *
      * @return string
+     * @throws \Exception
      */
-    public function serialize($data, SchemaInterface $schema, NormalizerInterface $normalizer  = null)
+    public function serialize(ResourceInterface $data) : string
     {
-        return 'test';
+        echo __METHOD__ . PHP_EOL;
+
+        $formatedData = '';
+        
+        if(!$this->getFormatter() instanceof FormatterInterface){
+            throw new \Exception('Invalid Formatter provided. %s', get_class($this->getFormatter()));
+        }
+
+        if($data instanceof Resource){
+
+            $formatedData = $this->getFormatter()->format($data);
+
+        }elseif ($data instanceof ResourceSet){
+
+            /** @var Resource $resource */
+            foreach ($data as $resource) {
+                $formatedData[] = $this->getFormatter()->format($resource);
+            }
+        }
+
+        return json_encode($formatedData);
     }
 
     /**
      * @param string $data
      *
+     * @return ResourceInterface
      * @throws \Exception
      */
-    public function unserialize($data)
+    public function unserialize($data) : ResourceInterface
     {
         throw new \Exception('unserialization is not implemented.');
     }

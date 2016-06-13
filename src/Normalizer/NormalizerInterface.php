@@ -9,8 +9,10 @@
 namespace Serializer\Normalizer;
 
 
+use Serializer\Normalizer\Resource\ResourceInterface;
+
 interface NormalizerInterface
 {
 
-    public function normalize($data) : NormalizedObject;
+    public function normalize($data) : ResourceInterface;
 }

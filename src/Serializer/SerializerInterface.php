@@ -9,14 +9,14 @@
 namespace Serializer\Serializer;
 
 
-use Serializer\Normalizer\NormalizerInterface;
-use Serializer\Schema\SchemaInterface;
+use Serializer\Formatter\FormatterInterface;
+use Serializer\Normalizer\Resource\ResourceInterface;
 
 interface SerializerInterface
 {
 
-    public function serialize(Resource $data);
+    public function serialize(ResourceInterface $data);
 
-    public function unserialize($data) : Resource;
+    public function unserialize($data) : ResourceInterface;
 
 }

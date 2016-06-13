@@ -14,5 +14,8 @@
   },
   "require": {
     "doctrine/orm": "^2.5"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.2"
   }
 }

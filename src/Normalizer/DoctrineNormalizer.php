@@ -12,6 +12,8 @@ namespace Serializer\Normalizer;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
+use Serializer\Normalizer\Resource\Resource;
+use Serializer\Normalizer\Resource\ResourceInterface;
 
 class DoctrineNormalizer implements NormalizerInterface
 {
@@ -33,12 +35,12 @@ class DoctrineNormalizer implements NormalizerInterface
      * TODO: WIP
      * @param $className
      *
-     * @return NormalizedObject
+     * @return ResourceInterface
      */
-    public function normalize($className) : NormalizedObject
+    public function normalize($className) : ResourceInterface
     {
         $metaData = $this->entityManager->getClassMetadata($className);
 
-        return new NormalizedObject();
+        return new Resource();
     }
 }
