@@ -1,0 +1,18 @@
+{
+  "name": "neofox/json-serializer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jerome Schaeffer",
+      "email": "jer.schaeffer@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Serializer\\": "src/"
+    }
+  },
+  "require": {
+    "doctrine/orm": "^2.5"
+  }
+}
