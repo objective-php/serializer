@@ -32,7 +32,7 @@ $entityManager = EntityManager::create($dbParams, $config);
 
 
 /////////////////////////// get data /////////////////////////////////
-$album = $entityManager->getRepository(\Serializer\examples\Album::class)->findBy(['id' => [1,2]]);
+$album = $entityManager->getRepository(\Serializer\examples\Album::class)->findBy(['id' => [1,2, 3, 4]]);
 ////////////////////////////////////////////////////////////////////
 
 //////////////////// initialize serializer////////////////////////////////
@@ -46,4 +46,4 @@ $serializer = (new Serializer())
 $dataSerialized = $serializer->serialize($album);
 ////////////////////////////////////////////////////////////////////
 
-var_dump($dataSerialized);
+echo($dataSerialized);

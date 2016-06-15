@@ -16,11 +16,16 @@ class DataArray implements FormatterInterface
 
     public function format(Resource $resource) : array
     {
+        $formattedRelations = [];
+        foreach ($resource->getRelations() as $relation => $properties) {
+            $formattedRelations[] = [$relation => ['data' => $properties]];
+        }
+
         return [
            $resource->getName() => [
                'data' => $resource->getProperties()
            ],
-           'relations' => $resource->getRelations(),
+           'relations' => $formattedRelations,
            'resource_id' => $resource->getId()
         ];
     }
