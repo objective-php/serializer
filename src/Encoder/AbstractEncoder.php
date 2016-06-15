@@ -6,12 +6,12 @@
  * Time: 12:21
  */
 
-namespace Serializer\Serializer;
+namespace Serializer\Encoder;
 
 
 use Serializer\Formatter\FormatterInterface;
 
-abstract class AbstractSerializer implements SerializerInterface
+abstract class AbstractEncoder implements EncoderInterface
 {
 
     /** @var  FormatterInterface */
@@ -22,8 +22,9 @@ abstract class AbstractSerializer implements SerializerInterface
         return $this->formatter;
     }
 
-    public function setFormatter(FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter) : EncoderInterface
     {
         $this->formatter = $formatter;
+        return $this;
     }
 }

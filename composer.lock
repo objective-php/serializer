@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "37816c220083a21b612265477cd12486",
-    "content-hash": "3f853a2fb5d2bcdc7238921932974913",
+    "hash": "d2297deccd0e97b899b7cc84769ef1bc",
+    "content-hash": "d7b6758975ece854e6e27d234bf8e9a6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -605,6 +605,60 @@
                 "orm"
             ],
             "time": "2016-01-05 21:34:58"
+        },
+        {
+            "name": "objective-php/primitives",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/objective-php/primitives.git",
+                "reference": "dc785eafceb3e4332be5c5f1c079500b115a3a7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/objective-php/primitives/zipball/dc785eafceb3e4332be5c5f1c079500b115a3a7d",
+                "reference": "dc785eafceb3e4332be5c5f1c079500b115a3a7d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "objective-php/phpunit-extension": "1.*",
+                "phpunit/phpunit": "5.*"
+            },
+            "suggest": {
+                "objective-php/matcher": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ObjectivePHP\\Primitives\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Gauthier 'Rusty' Delamarre",
+                    "email": "gauthier@objective-php.org",
+                    "role": "lead"
+                },
+                {
+                    "name": "Ronan 'Gloo' Teissier",
+                    "email": "ronan@objective-php.org",
+                    "role": "dev"
+                }
+            ],
+            "description": "Primitives classes for ObjectivePHP",
+            "homepage": "https://github.com/objective-php/primitives",
+            "keywords": [
+                "objective php",
+                "primitives"
+            ],
+            "time": "2016-05-12 14:56:23"
         },
         {
             "name": "symfony/console",

@@ -9,47 +9,89 @@
 namespace Serializer;
 
 
+use Serializer\Encoder\EncoderInterface;
+use Serializer\Encoder\JsonEncoder;
 use Serializer\Formatter\FormatterInterface;
 use Serializer\Normalizer\NormalizerInterface;
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Serializer\JsonSerializer;
-use Serializer\Serializer\SerializerInterface;
+use Serializer\Normalizer\Resource\ResourceInterface;
 
+//TODO: make classes for exception (we're having a lot of differents exceptions now)
 class Serializer
 {
 
-    /** @var  SerializerInterface */
-    protected $serializer;
+    /** @var  EncoderInterface */
+    protected $encoder;
 
-    public function serialize($data, FormatterInterface $formatter, NormalizerInterface $normalizer = null) : string {
+    /** @var  NormalizerInterface */
+    protected $normalizer;
+
+    /** @var  FormatterInterface */
+    protected $formatter;
+
+    public function serialize($data) : string
+    {
 
         echo __METHOD__ . PHP_EOL;
-        
+
         $serializedData = '';
 
-        if(empty($this->serializer)){
-            $this->setSerializer(new JsonSerializer());
+        if (empty($this->encoder)) {
+            $this->setEncoder(new JsonEncoder());
         }
-        $this->getSerializer()->setFormatter($formatter);
 
-        $normalizedData = $normalizer->normalize($data);
-        
-        if($normalizedData instanceof Resource){
-            $serializedData = $this->getSerializer()->serialize($normalizedData);
+        if (empty($this->normalizer)) {
+            throw new \Exception("A normalizer has to be set.");
+        }
+
+        if (empty($this->formatter)) {
+            throw new \Exception("A formatter has to be set.");
+        }
+
+        $this->getEncoder()->setFormatter($this->getFormatter());
+
+        $normalizedData = $this->getNormalizer()->normalize($data);
+
+        if ($normalizedData instanceof ResourceInterface) {
+            $serializedData = $this->getEncoder()->encode($normalizedData);
         }
 
         return $serializedData;
 
     }
 
-    public function setSerializer(SerializerInterface $serializer) : Serializer
+    public function getEncoder() : EncoderInterface
     {
-        $this->serializer = $serializer;
+        return $this->encoder;
+    }
+
+    public function setEncoder(EncoderInterface $encoder) : Serializer
+    {
+        $this->encoder = $encoder;
+
         return $this;
     }
 
-    public function getSerializer() : SerializerInterface
+    public function getFormatter() : FormatterInterface
     {
-        return $this->serializer;
+        return $this->formatter;
+    }
+
+    public function setFormatter(FormatterInterface $formatter) : Serializer
+    {
+        $this->formatter = $formatter;
+
+        return $this;
+    }
+
+    public function getNormalizer() : NormalizerInterface
+    {
+        return $this->normalizer;
+    }
+
+    public function setNormalizer(NormalizerInterface $normalizer) : Serializer
+    {
+        $this->normalizer = $normalizer;
+
+        return $this;
     }
 }

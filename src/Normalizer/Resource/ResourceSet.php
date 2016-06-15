@@ -9,8 +9,13 @@
 namespace Serializer\Normalizer\Resource;
 
 
-class ResourceSet extends AbstractResource implements \Iterator
+use Traversable;
+
+class ResourceSet extends AbstractResource implements \IteratorAggregate
 {
+
+    /** @var  int */
+    protected $position;
 
     /** @var array */
     protected $resources;
@@ -22,81 +27,46 @@ class ResourceSet extends AbstractResource implements \Iterator
     }
 
     /**
-     * TODO: check id
      * @param $id
      *
      * @return ResourceSet
+     * @throws \Exception
      */
     public function removeChild($id) : ResourceSet
     {
+        if(!isset($this->resources[$id])) throw new \Exception(sprintf('There is no ressource with the id %s', $id));
+
         unset($this->resources[$id]);
         return$this;
     }
 
     /**
-     * TODO: check id
      * @param $id
      *
      * @return Resource
+     * @throws \Exception
      */
     public function getResource($id) : Resource
     {
+        if(!isset($this->resources[$id])) throw new \Exception(sprintf('There is no ressource with the id %s', $id));
+
         return $this->resources[$id];
     }
 
-    /**
-     * Return the current element
-     * @link  http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
-     * @since 5.0.0
-     */
-    public function current()
+    public function getResources()
     {
-        // TODO: Implement current() method.
+        return $this->resources;
     }
 
     /**
-     * Move forward to next element
-     * @link  http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
+     * Retrieve an external iterator
+     * @link  http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
      * @since 5.0.0
      */
-    public function next()
+    public function getIterator()
     {
-        // TODO: Implement next() method.
-    }
-
-    /**
-     * Return the key of the current element
-     * @link  http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
-     * @since 5.0.0
-     */
-    public function key()
-    {
-        // TODO: Implement key() method.
-    }
-
-    /**
-     * Checks if current position is valid
-     * @link  http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
-     * @since 5.0.0
-     */
-    public function valid()
-    {
-        // TODO: Implement valid() method.
-    }
-
-    /**
-     * Rewind the Iterator to the first element
-     * @link  http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
-     */
-    public function rewind()
-    {
-        // TODO: Implement rewind() method.
+        return new \ArrayIterator($this->resources);
     }
 }

@@ -13,5 +13,5 @@ use Serializer\Normalizer\Resource\Resource;
 interface FormatterInterface
 {
 
-    public function format(Resource $resource) : array;
+    public function format(Resource $resource) : array ;
 }

@@ -16,7 +16,6 @@ class AbstractResource implements ResourceInterface
 
     /**
      * AbstractResource constructor.
-     *
      */
     public function __construct()
     {
