@@ -10,75 +10,40 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
 use Serializer\Encoder\JsonEncoder;
-use Serializer\Normalizer\Resource\Resource;
 use Serializer\Serializer;
 
 require __DIR__ . '../../vendor/autoload.php';
 
 
-$data = [
-    'resource test',
-    'test'  => 'toto',
-    'items' => [
-        'id' => 12,
-        'jambon' => false,
-        'cheese' => true,
-    ],
-];
-
-class CustomFormatter implements \Serializer\Formatter\FormatterInterface
-{
-
-    public function format(Resource $resource) : array
-    {
-        echo __METHOD__ . PHP_EOL;
-
-        return [
-            $resource->getName() => $resource->getProperties(),
-        ];
-    }
-}
-
-class CustomNormalizer implements \Serializer\Normalizer\NormalizerInterface
-{
-
-    public function normalize($data) : \Serializer\Normalizer\Resource\ResourceInterface
-    {
-        echo __METHOD__ . PHP_EOL;
-
-        $resource = new Resource();
-        $resource->setName($data[0]);
-        $resource->setProperties($data['items']);
-
-        return $resource;
-    }
-}
-//////////// entity manager ////////////
-$paths = array("/");
+///////////////// entity manager === can be injected /////////////////
 
 // the connection configuration
-$dbParams = array(
+$dbParams = [
     'driver'   => 'pdo_mysql',
     'user'     => 'root',
     'password' => 'root',
     'dbname'   => 'Chinook',
-);
+];
 
-$config = Setup::createAnnotationMetadataConfiguration($paths, true, null, null, false);
+$config = Setup::createAnnotationMetadataConfiguration(['/'], true, null, null, false);
 $config->setNamingStrategy(new UnderscoreNamingStrategy());
 $entityManager = EntityManager::create($dbParams, $config);
-/////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
+
+/////////////////////////// get data /////////////////////////////////
 $album = $entityManager->getRepository(\Serializer\examples\Artist::class)->findBy(['id' => [1,2]]);
+////////////////////////////////////////////////////////////////////
 
+//////////////////// initialize serializer////////////////////////////////
 $serializer = (new Serializer())
     ->setEncoder(new JsonEncoder())
     ->setNormalizer((new \Serializer\Normalizer\DoctrineNormalizer())->setEntityManager($entityManager))
-    //->setNormalizer(new CustomNormalizer())
-    ->setFormatter(new CustomFormatter())
-;
+    ->setFormatter(new \Serializer\Formatter\DataArray());
+////////////////////////////////////////////////////////////////////
 
+////////////////////////  serialize  ///////////////////////////////////
 $dataSerialized = $serializer->serialize($album);
-//$dataSerialized = $serializer->serialize($data);
+////////////////////////////////////////////////////////////////////
 
 var_dump($dataSerialized);
