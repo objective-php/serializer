@@ -30,9 +30,7 @@ class Serializer
 
     public function serialize($data) : string
     {
-
-        echo __METHOD__ . PHP_EOL;
-
+        
         $serializedData = '';
 
         if (empty($this->encoder)) {

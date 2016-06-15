@@ -25,8 +25,6 @@ class JsonEncoder extends AbstractEncoder
      */
     public function encode(ResourceInterface $data) : string
     {
-        echo __METHOD__ . PHP_EOL;
-
         $formatedData = '';
 
         if(!$this->getFormatter() instanceof FormatterInterface){
