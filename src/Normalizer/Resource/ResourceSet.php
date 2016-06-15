@@ -23,6 +23,7 @@ class ResourceSet extends AbstractResource implements \IteratorAggregate
     public function addChild(Resource $resource) : ResourceSet
     {
         $this->resources[$resource->getId()] = $resource;
+
         return $this;
     }
 
@@ -34,10 +35,13 @@ class ResourceSet extends AbstractResource implements \IteratorAggregate
      */
     public function removeChild($id) : ResourceSet
     {
-        if(!isset($this->resources[$id])) throw new \Exception(sprintf('There is no ressource with the id %s', $id));
+        if (!isset($this->resources[$id])) {
+            throw new \Exception(sprintf('There is no ressource with the id %s', $id));
+        }
 
         unset($this->resources[$id]);
-        return$this;
+
+        return $this;
     }
 
     /**
@@ -48,7 +52,9 @@ class ResourceSet extends AbstractResource implements \IteratorAggregate
      */
     public function getResource($id) : Resource
     {
-        if(!isset($this->resources[$id])) throw new \Exception(sprintf('There is no ressource with the id %s', $id));
+        if (!isset($this->resources[$id])) {
+            throw new \Exception(sprintf('There is no ressource with the id %s', $id));
+        }
 
         return $this->resources[$id];
     }

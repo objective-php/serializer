@@ -30,7 +30,6 @@ class Serializer
 
     public function serialize($data) : string
     {
-        
         $serializedData = '';
 
         if (empty($this->encoder)) {

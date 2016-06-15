@@ -20,6 +20,7 @@ class DataArray implements FormatterInterface
            $resource->getName() => [
                'data' => $resource->getProperties()
            ],
+           'relations' => $resource->getRelations(),
            'resource_id' => $resource->getId()
         ];
     }

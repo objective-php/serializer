@@ -25,6 +25,7 @@ abstract class AbstractEncoder implements EncoderInterface
     public function setFormatter(FormatterInterface $formatter) : EncoderInterface
     {
         $this->formatter = $formatter;
+
         return $this;
     }
 }

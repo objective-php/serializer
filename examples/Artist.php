@@ -2,7 +2,6 @@
 
 namespace Serializer\examples;
 
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**

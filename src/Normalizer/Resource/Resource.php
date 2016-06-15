@@ -18,6 +18,9 @@ class Resource extends AbstractResource
     /** @var  array */
     protected $properties;
 
+    /** @var  array */
+    protected $relations;
+
     /** @var  string */
     protected $baseUri;
 
@@ -86,9 +89,13 @@ class Resource extends AbstractResource
 
     protected function formatBaseUri(string $uri = null) : string
     {
-        if(empty($uri)) return 'http://example.com/api/';
+        if (empty($uri)) {
+            return 'http://example.com/api/';
+        }
 
-        if(substr($uri, -1) != '/') $uri .= '/';
+        if (substr($uri, -1) != '/') {
+            $uri .= '/';
+        }
 
         //TODO: do other checks
 
@@ -111,6 +118,26 @@ class Resource extends AbstractResource
     public function setClass(string $class)
     {
         $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRelations()
+    {
+        return $this->relations;
+    }
+
+    /**
+     * @param array $relations
+     *
+     * @return Resource
+     */
+    public function setRelations($relations)
+    {
+        $this->relations = $relations;
 
         return $this;
     }

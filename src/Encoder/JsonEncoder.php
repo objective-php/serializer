@@ -27,14 +27,14 @@ class JsonEncoder extends AbstractEncoder
     {
         $formatedData = '';
 
-        if(!$this->getFormatter() instanceof FormatterInterface){
+        if (!$this->getFormatter() instanceof FormatterInterface) {
             throw new \Exception('Invalid Formatter provided. %s', get_class($this->getFormatter()));
         }
 
-        if($data instanceof Resource){
+        if ($data instanceof Resource) {
             $formatedData = $this->getFormatter()->format($data);
 
-        }elseif ($data instanceof ResourceSet){
+        } elseif ($data instanceof ResourceSet) {
             /** @var Resource $resource */
             foreach ($data as $resource) {
                 $formatedData[] = $this->getFormatter()->format($resource);

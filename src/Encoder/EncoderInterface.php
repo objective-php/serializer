@@ -14,7 +14,7 @@ use Serializer\Normalizer\Resource\ResourceInterface;
 interface EncoderInterface
 {
 
-    public function encode(ResourceInterface $data) : string ;
+    public function encode(ResourceInterface $data) : string;
 
     public function unencode($data) : ResourceInterface;
 
