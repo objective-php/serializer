@@ -16,5 +16,6 @@ class JsonApi implements FormatterInterface
     public function format(Resource $data) : array
     {
         // TODO: Implement transform() method.
+        return [];
     }
 }

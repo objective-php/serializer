@@ -14,19 +14,35 @@ use Serializer\Normalizer\Resource\Resource;
 class DataArray implements FormatterInterface
 {
 
+    /**
+     * @param Serializer\Normalizer\Resource\Resource $resource
+     *
+     * @return array
+     */
     public function format(Resource $resource) : array
+    {
+        $dataArray = [
+            'resource_id' => $resource->getId(),
+
+            $resource->getName() => [
+                'data' => $resource->getProperties(),
+            ],
+        ];
+
+        if (!empty($resource->getRelations())) {
+            $dataArray += ['relations' => $this->getRelations($resource)];
+        }
+
+        return $dataArray;
+    }
+
+    private function getRelations(Resource $resource)
     {
         $formattedRelations = [];
         foreach ($resource->getRelations() as $relation => $properties) {
             $formattedRelations[] = [$relation => ['data' => $properties]];
         }
 
-        return [
-           $resource->getName() => [
-               'data' => $resource->getProperties()
-           ],
-           'relations' => $formattedRelations,
-           'resource_id' => $resource->getId()
-        ];
+        return $formattedRelations;
     }
 }

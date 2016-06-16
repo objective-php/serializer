@@ -5,6 +5,14 @@ paths:
     data: tests/_data
     support: tests/_support
     envs: tests/_envs
+coverage:
+    enabled: true
+    remote: false
+    include:
+        - src/*
+    exclude:
+        - vendor/*
+        - examples/*
 settings:
     bootstrap: _bootstrap.php
     colors: true

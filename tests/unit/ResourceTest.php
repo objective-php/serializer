@@ -6,7 +6,7 @@ use Serializer\Normalizer\Resource\ResourceSet;
 class ResourceTest extends \Codeception\TestCase\Test
 {
     /**
-     * @var CodeGuy
+     * @var UnitTester
      */
     protected $tester;
 
@@ -47,6 +47,10 @@ class ResourceTest extends \Codeception\TestCase\Test
 
     public function testResourceIsFormattingBaseUri()
     {
+        $this->resource->setBaseUri('');
+
+        $this->assertEquals('http://example.com/api/', $this->resource->getBaseUri());
+
         $this->resource->setBaseUri('http://test.COm');
 
         $this->assertEquals('http://test.com/', $this->resource->getBaseUri());
@@ -78,6 +82,10 @@ class ResourceTest extends \Codeception\TestCase\Test
     {
         $resource1 = new Resource();
 
+        $this->tester->assertThrows(function () {
+            $this->resourceSet->removeChild('reallyInvalidId');
+        }, 'Exception', 'An exception as to be thrown.');
+
         $this->resourceSet->addChild($resource1);
 
         $this->assertContains($resource1, $this->resourceSet->getResources());
@@ -95,6 +103,12 @@ class ResourceTest extends \Codeception\TestCase\Test
         $this->resourceSet->addChild($resource1);
 
         $this->assertEquals($resource1, $this->resourceSet->getResource($resource1->getId()));
+
+        $this->tester->assertThrows(function () {
+            $this->resourceSet->getResource('reallyInvalidId');
+        }, 'Exception', 'An exception as to be thrown.');
+
+
     }
 
 }

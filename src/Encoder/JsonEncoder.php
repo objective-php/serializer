@@ -9,7 +9,6 @@
 namespace Serializer\Encoder;
 
 
-use Serializer\Formatter\FormatterInterface;
 use Serializer\Normalizer\Resource\Resource;
 use Serializer\Normalizer\Resource\ResourceInterface;
 use Serializer\Normalizer\Resource\ResourceSet;
@@ -26,10 +25,6 @@ class JsonEncoder extends AbstractEncoder
     public function encode(ResourceInterface $data) : string
     {
         $formatedData = '';
-
-        if (!$this->getFormatter() instanceof FormatterInterface) {
-            throw new \Exception('Invalid Formatter provided. %s', get_class($this->getFormatter()));
-        }
 
         if ($data instanceof Resource) {
             $formatedData = $this->getFormatter()->format($data);

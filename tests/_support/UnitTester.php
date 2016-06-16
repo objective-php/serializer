@@ -1,4 +1,7 @@
 <?php
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
+use Doctrine\ORM\Tools\Setup;
 
 
 /**
@@ -22,4 +25,25 @@ class UnitTester extends \Codeception\Actor
    /**
     * Define custom actions here
     */
+
+    public function getEntityManager()
+    {
+
+///////////////// entity manager === can be injected /////////////////
+
+// the connection configuration
+        $dbParams = [
+            'driver'   => 'pdo_mysql',
+            'user'     => 'root',
+            'password' => 'root',
+            'dbname'   => 'Chinook',
+        ];
+
+        $config = Setup::createAnnotationMetadataConfiguration(['/'], true, null, null, false);
+        $config->setNamingStrategy(new UnderscoreNamingStrategy());
+        $entityManager = EntityManager::create($dbParams, $config);
+////////////////////////////////////////////////////////////////////
+
+        return $entityManager;
+    }
 }

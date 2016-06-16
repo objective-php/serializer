@@ -2,11 +2,12 @@
 
 
 use Serializer\Normalizer\Resource\Resource;
+use Serializer\Normalizer\Resource\ResourceSet;
 
 class EncoderTest extends \Codeception\TestCase\Test
 {
     /**
-     * @var CodeGuy
+     * @var UnitTester
      */
     protected $tester;
 
@@ -17,16 +18,22 @@ class EncoderTest extends \Codeception\TestCase\Test
     public function testJsonEncoder()
     {
         $encoder = new \Serializer\Encoder\JsonEncoder();
-        /** @var Resource $resource */
-        $resource = \Codeception\Util\Stub::make(Resource::class, ['getId' => '123']);
-
-        //TODO: need to finish the resourceSet for this test
-        $resourceSet = \Codeception\Util\Stub::make(\Serializer\Normalizer\Resource\ResourceSet::class);
-
+        
+        $resource = (new Resource())->setName('resource test');
+        $resourceSet = (new ResourceSet())->addChild($resource);
+        
         $encoder->setFormatter(new TestFormatter());
         $encodedData = $encoder->encode($resource);
 
-        $this->assertEquals('{"id":"123"}', $encodedData);
+        $this->assertEquals('{"name":"resource test"}', $encodedData);
+
+        $encodedData = $encoder->encode($resourceSet);
+        $this->assertEquals('[{"name":"resource test"}]', $encodedData);
+
+
+        $this->tester->assertThrows(function ()  use ($encoder){
+            $encoder->unencode('somethingsomething');
+        }, 'Exception', 'An exception as to be thrown.');
 
     }
 
@@ -34,7 +41,7 @@ class EncoderTest extends \Codeception\TestCase\Test
     {
         $encoder = new TestEncoder();
 
-        $resource = \Codeception\Util\Stub::make(Resource::class, ['getId' => '123']);
+        $resource = \Codeception\Util\Stub::make(Resource::class);
         $encoder->setFormatter(new TestFormatter());
         $encodedData = $encoder->encode($resource);
 
@@ -45,27 +52,4 @@ class EncoderTest extends \Codeception\TestCase\Test
     }
 }
 
-
-
-class TestFormatter implements \Serializer\Formatter\FormatterInterface
-{
-
-    public function format(Resource $resource) : array
-    {
-        return ['id' => $resource->getId()];
-    }
-}
-
-class TestEncoder extends \Serializer\Encoder\AbstractEncoder
-{
-
-    public function encode(\Serializer\Normalizer\Resource\ResourceInterface $data) : string
-    {
-        return 'encoded data';
-    }
-
-    public function unencode($data) : \Serializer\Normalizer\Resource\ResourceInterface
-    {
-    }
-}
 

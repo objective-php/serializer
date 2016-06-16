@@ -25,7 +25,7 @@ class DoctrineNormalizer implements NormalizerInterface
     protected $entityManager;
 
     /** @var string */
-    private $baseUri;
+    protected $baseUri;
 
     /**
      * DoctrineNormalizer constructor.
@@ -142,6 +142,25 @@ class DoctrineNormalizer implements NormalizerInterface
     {
         $this->entityManager = $entityManager;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUri()
+    {
+        return $this->baseUri;
+    }
+
+    /**
+     * @param string $baseUri
+     *
+     * @return DoctrineNormalizer
+     */
+    public function setBaseUri($baseUri)
+    {
+        $this->baseUri = $baseUri;
         return $this;
     }
 }
