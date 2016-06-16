@@ -16,6 +16,13 @@ use Serializer\Normalizer\NormalizerInterface;
 use Serializer\Normalizer\Resource\ResourceInterface;
 
 //TODO: make classes for exception (we're having a lot of differents exceptions now)
+/**
+ * The class Serializer is the main entry to the library. The class is gonna call
+ * the differents adapters.
+ *
+ * Class Serializer
+ * @package Serializer
+ */
 class Serializer
 {
 
@@ -28,6 +35,16 @@ class Serializer
     /** @var  FormatterInterface */
     protected $formatter;
 
+    /**
+     * Serialize data. it can be anything, you just have to be careful that the
+     * normalizer can do his job with your data.
+     * the formatter and the encoder can deal with any kind of data.
+     *
+     * @param $data
+     *
+     * @return string
+     * @throws \Exception
+     */
     public function serialize($data) : string
     {
         $serializedData = '';
@@ -56,11 +73,19 @@ class Serializer
 
     }
 
+    /**
+     * @return EncoderInterface
+     */
     public function getEncoder() : EncoderInterface
     {
         return $this->encoder;
     }
 
+    /**
+     * @param EncoderInterface $encoder
+     *
+     * @return Serializer
+     */
     public function setEncoder(EncoderInterface $encoder) : Serializer
     {
         $this->encoder = $encoder;
@@ -68,11 +93,19 @@ class Serializer
         return $this;
     }
 
+    /**
+     * @return FormatterInterface
+     */
     public function getFormatter() : FormatterInterface
     {
         return $this->formatter;
     }
 
+    /**
+     * @param FormatterInterface $formatter
+     *
+     * @return Serializer
+     */
     public function setFormatter(FormatterInterface $formatter) : Serializer
     {
         $this->formatter = $formatter;
@@ -80,11 +113,19 @@ class Serializer
         return $this;
     }
 
+    /**
+     * @return NormalizerInterface
+     */
     public function getNormalizer() : NormalizerInterface
     {
         return $this->normalizer;
     }
 
+    /**
+     * @param NormalizerInterface $normalizer
+     *
+     * @return Serializer
+     */
     public function setNormalizer(NormalizerInterface $normalizer) : Serializer
     {
         $this->normalizer = $normalizer;

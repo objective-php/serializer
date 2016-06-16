@@ -11,11 +11,16 @@ namespace Serializer\Formatter;
 
 use Serializer\Normalizer\Resource\Resource;
 
+/**
+ * Class DataArray
+ * @package Serializer\Formatter
+ */
 class DataArray implements FormatterInterface
 {
 
     /**
-     * @param Serializer\Normalizer\Resource\Resource $resource
+     *
+     * @param Resource $resource
      *
      * @return array
      */
@@ -36,6 +41,13 @@ class DataArray implements FormatterInterface
         return $dataArray;
     }
 
+    /**
+     * Extract the relations of the resource to make an formatted array.
+     *
+     * @param Resource $resource
+     *
+     * @return array
+     */
     private function getRelations(Resource $resource)
     {
         $formattedRelations = [];

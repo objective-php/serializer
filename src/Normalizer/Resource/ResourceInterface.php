@@ -9,6 +9,10 @@
 namespace Serializer\Normalizer\Resource;
 
 
+/**
+ * Interface ResourceInterface
+ * @package Serializer\Normalizer\Resource
+ */
 interface ResourceInterface
 {
 }

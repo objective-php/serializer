@@ -11,6 +11,10 @@ namespace Serializer\Normalizer\Resource;
 
 use Traversable;
 
+/**
+ * Class ResourceSet
+ * @package Serializer\Normalizer\Resource
+ */
 class ResourceSet extends AbstractResource implements \IteratorAggregate
 {
 
@@ -20,6 +24,11 @@ class ResourceSet extends AbstractResource implements \IteratorAggregate
     /** @var array */
     protected $resources;
 
+    /**
+     * @param Resource $resource
+     *
+     * @return ResourceSet
+     */
     public function addChild(Resource $resource) : ResourceSet
     {
         $this->resources[$resource->getId()] = $resource;
@@ -59,6 +68,9 @@ class ResourceSet extends AbstractResource implements \IteratorAggregate
         return $this->resources[$id];
     }
 
+    /**
+     * @return array
+     */
     public function getResources()
     {
         return $this->resources;

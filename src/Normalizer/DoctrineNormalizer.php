@@ -19,6 +19,13 @@ use Serializer\Normalizer\Resource\Resource;
 use Serializer\Normalizer\Resource\ResourceInterface;
 use Serializer\Normalizer\Resource\ResourceSet;
 
+/**
+ * The doctrine normalizer extract from a doctrine entity all valuable information
+ * to do a simple resource.
+ *
+ * Class DoctrineNormalizer
+ * @package Serializer\Normalizer
+ */
 class DoctrineNormalizer implements NormalizerInterface
 {
     /** @var EntityManager */
@@ -52,6 +59,7 @@ class DoctrineNormalizer implements NormalizerInterface
             throw new \Exception('An Entity Manager is needed for normalizing doctrine entities.');
         }
 
+        // If we want to normalize an array of entity, we have to create a ResourceSet
         if (is_array($data)) {
             $resource = new ResourceSet();
             $metaData = $this->entityManager->getClassMetadata(get_class($data[0]));
@@ -68,6 +76,13 @@ class DoctrineNormalizer implements NormalizerInterface
         return $resource;
     }
 
+    /**
+     * @param ClassMetadata $metaData
+     * @param               $entity
+     *
+     * @return Resource
+     * @throws \Exception
+     */
     protected function createResource(ClassMetadata $metaData, $entity) : Resource
     {
         $resource = new Resource();
@@ -81,6 +96,13 @@ class DoctrineNormalizer implements NormalizerInterface
         return $resource;
     }
 
+    /**
+     * @param               $entity
+     * @param ClassMetadata $metadata
+     *
+     * @return array
+     * @throws \Exception
+     */
     protected function getEntityColumnValues($entity, ClassMetadata $metadata)
     {
         $fields = $metadata->getFieldNames();
@@ -88,6 +110,8 @@ class DoctrineNormalizer implements NormalizerInterface
         foreach ($fields as $field) {
             $getter = 'get' . ucfirst($field);
 
+            // If the method corresponding to the property does not exist in the
+            // entity, we're gonna throw a simple Exception.
             try {
                 $values[$field] = $entity->$getter();
             } catch (\Error $e) {
@@ -98,6 +122,13 @@ class DoctrineNormalizer implements NormalizerInterface
         return $values;
     }
 
+    /**
+     * @param               $entity
+     * @param ClassMetadata $metadata
+     *
+     * @return array
+     * @throws \Exception
+     */
     public function getEmbededRelations($entity, ClassMetadata $metadata)
     {
         $relations = $metadata->getAssociationMappings();

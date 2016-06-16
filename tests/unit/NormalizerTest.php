@@ -27,6 +27,11 @@ class NormalizerTest extends \Codeception\TestCase\Test
         $normalizer = new \Serializer\Normalizer\DoctrineNormalizer();
 
         $normalizer->setBaseUri('http://example.com/');
+
+        $this->tester->assertThrows(function () use ($normalizer){
+            $normalizer->normalize('somethingsomething');
+        }, 'Exception', 'An exception as to be thrown.');
+
         $normalizer->setEntityManager($this->em);
 
         $resource = $normalizer->normalize($this->album);

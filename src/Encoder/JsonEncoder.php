@@ -13,6 +13,13 @@ use Serializer\Normalizer\Resource\Resource;
 use Serializer\Normalizer\Resource\ResourceInterface;
 use Serializer\Normalizer\Resource\ResourceSet;
 
+/**
+ * The class JsonEncoder is gonna use the formatter provided to transform
+ * a resource into an encoded string.
+ *
+ * Class JsonEncoder
+ * @package Serializer\Encoder
+ */
 class JsonEncoder extends AbstractEncoder
 {
 

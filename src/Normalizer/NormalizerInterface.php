@@ -11,8 +11,17 @@ namespace Serializer\Normalizer;
 
 use Serializer\Normalizer\Resource\ResourceInterface;
 
+/**
+ * Interface NormalizerInterface
+ * @package Serializer\Normalizer
+ */
 interface NormalizerInterface
 {
 
+    /**
+     * @param $data
+     *
+     * @return ResourceInterface
+     */
     public function normalize($data) : ResourceInterface;
 }

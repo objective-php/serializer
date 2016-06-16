@@ -9,9 +9,16 @@
 namespace Serializer\Normalizer\Resource;
 
 
+/**
+ * Class AbstractResource
+ * @package Serializer\Normalizer\Resource
+ */
 class AbstractResource implements ResourceInterface
 {
 
+    /**
+     * @var string
+     */
     protected $id;
 
     /**
@@ -22,6 +29,9 @@ class AbstractResource implements ResourceInterface
         $this->id = uniqid();
     }
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;

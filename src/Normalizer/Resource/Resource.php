@@ -8,6 +8,10 @@
 
 namespace Serializer\Normalizer\Resource;
 
+/**
+ * Class Resource
+ * @package Serializer\Normalizer\Resource
+ */
 class Resource extends AbstractResource
 {
 
@@ -86,6 +90,11 @@ class Resource extends AbstractResource
         return $this;
     }
 
+    /**
+     * @param string|null $uri
+     *
+     * @return string
+     */
     protected function formatBaseUri(string $uri = null) : string
     {
         if (empty($uri)) {

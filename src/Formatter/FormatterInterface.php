@@ -10,8 +10,17 @@ namespace Serializer\Formatter;
 
 use Serializer\Normalizer\Resource\Resource;
 
+/**
+ * Interface FormatterInterface
+ * @package Serializer\Formatter
+ */
 interface FormatterInterface
 {
 
+    /**
+     * @param Resource $resource
+     *
+     * @return array
+     */
     public function format(Resource $resource) : array ;
 }
