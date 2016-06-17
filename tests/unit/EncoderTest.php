@@ -25,15 +25,33 @@ class EncoderTest extends \Codeception\TestCase\Test
         $encoder->setFormatter(new TestFormatter());
         $encodedData = $encoder->encode($resource);
 
-        $this->assertEquals('{"name":"resource test"}', $encodedData);
+        $this->assertEquals('{"name":"resource-test"}', $encodedData);
 
         $encodedData = $encoder->encode($resourceSet);
-        $this->assertEquals('[{"name":"resource test"}]', $encodedData);
-
-
+        $this->assertEquals('[{"name":"resource-test"}]', $encodedData);
+        
         $this->tester->assertThrows(function ()  use ($encoder){
             $encoder->unencode('somethingsomething');
         }, 'Exception', 'An exception as to be thrown.');
+
+    }
+
+    public function testEncoderPaginate()
+    {
+        $resource = \Codeception\Util\Stub::make(Resource::class);
+        $encoder = new \Serializer\Encoder\JsonEncoder();
+        $fomatter = (new TestFormatter())->setPaginer(
+            new \Serializer\Paginer\PagerFantaAdapter(
+                new Pagerfanta\Pagerfanta(
+                    new \Pagerfanta\Adapter\ArrayAdapter([])
+                )
+            )
+        );
+        $encoder->setFormatter($fomatter);
+        $encodedData = $encoder->encode($resource);
+
+        $this->assertEquals('{"name":null,"page":1}', $encodedData);
+        
 
     }
 

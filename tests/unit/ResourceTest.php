@@ -39,7 +39,7 @@ class ResourceTest extends \Codeception\TestCase\Test
             ->setClass(Resource::class)
             ->setBaseUri('http://test.test/');
 
-        $this->assertEquals('resource test', $this->resource->getName());
+        $this->assertEquals('resource-test', $this->resource->getName());
         $this->assertEquals([1,2,3], $this->resource->getProperties());
         $this->assertEquals(Resource::class, $this->resource->getClass());
         $this->assertEquals('http://test.test/', $this->resource->getBaseUri());

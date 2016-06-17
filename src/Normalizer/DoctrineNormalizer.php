@@ -41,7 +41,7 @@ class DoctrineNormalizer implements NormalizerInterface
      *
      * @throws \Doctrine\ORM\ORMException
      */
-    public function __construct(string $baseUri = null)
+    public function __construct(string $baseUri = '')
     {
         $this->baseUri = $baseUri;
     }
@@ -87,13 +87,35 @@ class DoctrineNormalizer implements NormalizerInterface
     {
         $resource = new Resource();
 
+        if (!empty($this->getBaseUri())) {
+            $resource->setBaseUri($this->getBaseUri() . strtolower($resource->getName()) . '/');
+        }
         $resource->setClass(get_class($entity));
         $resource->setName(strtolower(str_replace($metaData->namespace . '\\', '', $metaData->name)));
-        $resource->setBaseUri($this->baseUri . strtolower($resource->getName()));
         $resource->setProperties($this->getEntityColumnValues($entity, $metaData));
         $resource->setRelations($this->getEmbededRelations($entity, $metaData));
 
         return $resource;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUri()
+    {
+        return $this->baseUri;
+    }
+
+    /**
+     * @param string $baseUri
+     *
+     * @return DoctrineNormalizer
+     */
+    public function setBaseUri($baseUri)
+    {
+        $this->baseUri = $baseUri;
+
+        return $this;
     }
 
     /**
@@ -126,34 +148,32 @@ class DoctrineNormalizer implements NormalizerInterface
      * @param               $entity
      * @param ClassMetadata $metadata
      *
-     * @return array
+     * @return ResourceSet
      * @throws \Exception
      */
     public function getEmbededRelations($entity, ClassMetadata $metadata)
     {
-        $relations = $metadata->getAssociationMappings();
-        $values = [];
-        $properties = [];
-        foreach ($relations as $relation) {
-            $getter = 'get' . ucfirst($relation['fieldName']);
+        $relations = new ResourceSet();
+        $relationsMeta = $metadata->getAssociationMappings();
+        $relationsClass = [];
+
+        foreach ($relationsMeta as $relationMeta) {
+            $getter = 'get' . ucfirst($relationMeta['fieldName']);
 
             // We're getting the embedded classes
             try {
-                $values[$relation['fieldName']] = $entity->$getter();
+                $relationsClass[$relationMeta['fieldName']] = $entity->$getter();
             } catch (\Error $e) {
                 throw new \Exception(sprintf('The method %s does not exist.', $getter));
             }
-
-            // Now we're gettings their properties
-            foreach ($values as $value) {
-                $tempMeta = $this->entityManager->getClassMetadata(get_class($value));
-                $properties[$relation['fieldName']] = $this->getEntityColumnValues($value, $tempMeta);
-            }
-
         }
 
-        return $properties;
+        foreach ($relationsClass as $relationClass) {
+            $relationMetaData = $this->entityManager->getClassMetadata(get_class($relationClass));
+            $relations->addChild($this->createResource($relationMetaData, $relationClass));
+        }
 
+        return $relations;
     }
 
     /**
@@ -173,25 +193,6 @@ class DoctrineNormalizer implements NormalizerInterface
     {
         $this->entityManager = $entityManager;
 
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBaseUri()
-    {
-        return $this->baseUri;
-    }
-
-    /**
-     * @param string $baseUri
-     *
-     * @return DoctrineNormalizer
-     */
-    public function setBaseUri($baseUri)
-    {
-        $this->baseUri = $baseUri;
         return $this;
     }
 }

@@ -4,7 +4,7 @@
 class NormalizerTest extends \Codeception\TestCase\Test
 {
     /**
-     * @var CodeGuy
+     * @var UnitTester
      */
     protected $tester;
 

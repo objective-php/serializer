@@ -2,7 +2,7 @@
 // This is global bootstrap for autoloading
 
 
-class TestFormatter implements \Serializer\Formatter\FormatterInterface
+class TestFormatter extends \Serializer\Formatter\AbstractFormatter
 {
     /**
      *
@@ -12,7 +12,12 @@ class TestFormatter implements \Serializer\Formatter\FormatterInterface
      */
     public function format(\Serializer\Normalizer\Resource\Resource $resource) : array
     {
-        return ['name' => $resource->getName()];
+        $data = ['name' => $resource->getName()];
+
+        if($this->hasPaginer()){
+            $data += ['page' => $this->getPaginer()->getCurrentPage()];
+        }
+        return $data;
     }
 }
 

@@ -9,7 +9,7 @@ use Serializer\Serializer;
 class SerializerTest extends \Codeception\TestCase\Test
 {
     /**
-     * @var CodeGuy
+     * @var UnitTester
      */
     protected $tester;
 
@@ -41,6 +41,12 @@ class SerializerTest extends \Codeception\TestCase\Test
     {
         $serializer = new Serializer();
 
+        $serializer->setPaginer(
+            new \Serializer\Paginer\PagerFantaAdapter(
+                new Pagerfanta\Pagerfanta(
+                    new \Pagerfanta\Adapter\ArrayAdapter([$this->testData]))
+            )
+        );
 
         $this->tester->assertThrows(function () use ($serializer){
             $serializer->serialize('somethingsomething');
@@ -58,6 +64,6 @@ class SerializerTest extends \Codeception\TestCase\Test
         $serializedData = $serializer->serialize($this->testData);
 
 
-        $this->assertEquals('{"name":"data"}', $serializedData);
+        $this->assertEquals('{"name":"data","page":1}', $serializedData);
     }
 }

@@ -9,6 +9,7 @@
 namespace Serializer\Encoder;
 
 
+use Serializer\Formatter\FormatterInterface;
 use Serializer\Normalizer\Resource\ResourceInterface;
 
 /**
@@ -31,5 +32,9 @@ interface EncoderInterface
      * @return ResourceInterface
      */
     public function unencode($data) : ResourceInterface;
+
+    public function getFormatter() : FormatterInterface;
+
+    public function setFormatter(FormatterInterface $formatter);
 
 }

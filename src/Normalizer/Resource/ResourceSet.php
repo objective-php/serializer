@@ -17,10 +17,6 @@ use Traversable;
  */
 class ResourceSet extends AbstractResource implements \IteratorAggregate
 {
-
-    /** @var  int */
-    protected $position;
-
     /** @var array */
     protected $resources;
 

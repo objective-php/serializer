@@ -21,11 +21,11 @@ class Resource extends AbstractResource
     /** @var  array */
     protected $properties;
 
-    /** @var  array */
+    /** @var  ResourceSet */
     protected $relations;
 
     /** @var  string */
-    protected $baseUri;
+    protected $baseUri = 'http://example.com/api/';
 
     /** @var  string */
     protected $class;
@@ -45,6 +45,8 @@ class Resource extends AbstractResource
      */
     public function setName($name)
     {
+        $name = str_replace(' ', '-', $name);
+
         $this->name = $name;
 
         return $this;
@@ -104,8 +106,7 @@ class Resource extends AbstractResource
         if (substr($uri, -1) != '/') {
             $uri .= '/';
         }
-
-        //TODO: do other checks
+        $uri = str_replace(' ', '-', $uri);
 
         return strtolower($uri);
     }
@@ -131,7 +132,7 @@ class Resource extends AbstractResource
     }
 
     /**
-     * @return array
+     * @return ResourceSet
      */
     public function getRelations()
     {
@@ -139,7 +140,7 @@ class Resource extends AbstractResource
     }
 
     /**
-     * @param array $relations
+     * @param ResourceSet $relations
      *
      * @return Resource
      */

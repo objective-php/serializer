@@ -14,6 +14,7 @@ use Serializer\Encoder\JsonEncoder;
 use Serializer\Formatter\FormatterInterface;
 use Serializer\Normalizer\NormalizerInterface;
 use Serializer\Normalizer\Resource\ResourceInterface;
+use Serializer\Paginer\PaginerInterface;
 
 //TODO: make classes for exception (we're having a lot of differents exceptions now)
 /**
@@ -34,6 +35,9 @@ class Serializer
 
     /** @var  FormatterInterface */
     protected $formatter;
+
+    /** @var  PaginerInterface */
+    protected $paginer;
 
     /**
      * Serialize data. it can be anything, you just have to be careful that the
@@ -61,6 +65,9 @@ class Serializer
             throw new \Exception("A formatter has to be set.");
         }
 
+        if ($this->getPaginer()) {
+            $this->getFormatter()->setPaginer($this->getPaginer());
+        }
         $this->getEncoder()->setFormatter($this->getFormatter());
 
         $normalizedData = $this->getNormalizer()->normalize($data);
@@ -74,21 +81,21 @@ class Serializer
     }
 
     /**
-     * @return EncoderInterface
+     * @return PaginerInterface
      */
-    public function getEncoder() : EncoderInterface
+    public function getPaginer()
     {
-        return $this->encoder;
+        return $this->paginer;
     }
 
     /**
-     * @param EncoderInterface $encoder
+     * @param PaginerInterface $paginer
      *
      * @return Serializer
      */
-    public function setEncoder(EncoderInterface $encoder) : Serializer
+    public function setPaginer($paginer) : Serializer
     {
-        $this->encoder = $encoder;
+        $this->paginer = $paginer;
 
         return $this;
     }
@@ -109,6 +116,26 @@ class Serializer
     public function setFormatter(FormatterInterface $formatter) : Serializer
     {
         $this->formatter = $formatter;
+
+        return $this;
+    }
+
+    /**
+     * @return EncoderInterface
+     */
+    public function getEncoder() : EncoderInterface
+    {
+        return $this->encoder;
+    }
+
+    /**
+     * @param EncoderInterface $encoder
+     *
+     * @return Serializer
+     */
+    public function setEncoder(EncoderInterface $encoder) : Serializer
+    {
+        $this->encoder = $encoder;
 
         return $this;
     }

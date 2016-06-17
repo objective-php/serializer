@@ -15,12 +15,11 @@ use Serializer\Normalizer\Resource\Resource;
  * Class DataArray
  * @package Serializer\Formatter
  */
-class DataArray implements FormatterInterface
+class DataArray extends AbstractFormatter
 {
 
     /**
-     *
-     * @param Resource $resource
+     * @param \Serializer\Normalizer\Resource\Resource $resource
      *
      * @return array
      */
@@ -44,15 +43,16 @@ class DataArray implements FormatterInterface
     /**
      * Extract the relations of the resource to make an formatted array.
      *
-     * @param Resource $resource
+     * @param \Serializer\Normalizer\Resource\Resource $resource
      *
      * @return array
      */
-    private function getRelations(Resource $resource)
+    protected function getRelations(Resource $resource)
     {
         $formattedRelations = [];
-        foreach ($resource->getRelations() as $relation => $properties) {
-            $formattedRelations[] = [$relation => ['data' => $properties]];
+        /** @var \Serializer\Normalizer\Resource\Resource $subResource */
+        foreach ($resource->getRelations() as $subResource) {
+            $formattedRelations[] = [$subResource->getName() => ['data' => $subResource->getProperties()]];
         }
 
         return $formattedRelations;

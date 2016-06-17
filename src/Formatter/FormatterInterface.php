@@ -9,6 +9,7 @@
 namespace Serializer\Formatter;
 
 use Serializer\Normalizer\Resource\Resource;
+use Serializer\Paginer\PaginerInterface;
 
 /**
  * Interface FormatterInterface
@@ -22,5 +23,22 @@ interface FormatterInterface
      *
      * @return array
      */
-    public function format(Resource $resource) : array ;
+    public function format(Resource $resource) : array;
+
+    /**
+     * @return PaginerInterface
+     */
+    public function getPaginer() : PaginerInterface;
+
+    /**
+     * @param PaginerInterface $paginer
+     *
+     * @return FormatterInterface
+     */
+    public function setPaginer(PaginerInterface $paginer);
+
+    /**
+     * @return bool
+     */
+    public function hasPaginer() : bool;
 }
