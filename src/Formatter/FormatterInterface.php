@@ -9,6 +9,7 @@
 namespace Serializer\Formatter;
 
 use Serializer\Normalizer\Resource\Resource;
+use Serializer\Normalizer\Resource\ResourceInterface;
 use Serializer\Paginer\PaginerInterface;
 
 /**
@@ -19,11 +20,11 @@ interface FormatterInterface
 {
 
     /**
-     * @param Resource $resource
+     * @param ResourceInterface $resource
      *
      * @return array
      */
-    public function format(Resource $resource) : array;
+    public function format(ResourceInterface $resource) : array;
 
     /**
      * @return PaginerInterface

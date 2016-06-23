@@ -11,7 +11,6 @@ namespace Serializer\Encoder;
 
 use Serializer\Normalizer\Resource\Resource;
 use Serializer\Normalizer\Resource\ResourceInterface;
-use Serializer\Normalizer\Resource\ResourceSet;
 
 /**
  * The class JsonEncoder is gonna use the formatter provided to transform
@@ -31,17 +30,7 @@ class JsonEncoder extends AbstractEncoder
      */
     public function encode(ResourceInterface $data) : string
     {
-        $formatedData = '';
-
-        if ($data instanceof Resource) {
-            $formatedData = $this->getFormatter()->format($data);
-
-        } elseif ($data instanceof ResourceSet) {
-            /** @var Resource $resource */
-            foreach ($data as $resource) {
-                $formatedData[] = $this->getFormatter()->format($resource);
-            }
-        }
+        $formatedData = $this->getFormatter()->format($data);
 
         return json_encode($formatedData);
     }

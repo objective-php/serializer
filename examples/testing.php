@@ -32,15 +32,15 @@ $entityManager = EntityManager::create($dbParams, $config);
 
 
 /////////////////////////// get data /////////////////////////////////
-//$album = $entityManager->getRepository(\Serializer\examples\Album::class)->findBy(['id' => [1,2, 3, 4]]);
-$album = $entityManager->getRepository(\Serializer\examples\Album::class)->find(1);
+$album = $entityManager->getRepository(\Serializer\examples\Album::class)->findBy(['id' => [1,2, 3, 4]]);
+//$album = $entityManager->getRepository(\Serializer\examples\Album::class)->find(1);
 ////////////////////////////////////////////////////////////////////
 
 //////////////////// initialize serializer////////////////////////////////
 $serializer = (new Serializer())
     ->setEncoder(new JsonEncoder())
     ->setNormalizer((new \Serializer\Normalizer\DoctrineNormalizer())->setEntityManager($entityManager))
-    ->setFormatter(new \Serializer\Formatter\JsonApi());
+    ->setFormatter(new \Serializer\Formatter\DataArray());
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////  serialize  ///////////////////////////////////

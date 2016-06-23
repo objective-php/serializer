@@ -9,6 +9,7 @@
 namespace Serializer\Formatter;
 
 use Serializer\Normalizer\Resource\Resource;
+use Serializer\Normalizer\Resource\ResourceInterface;
 use Serializer\Normalizer\Resource\ResourceSet;
 
 /**
@@ -19,14 +20,23 @@ class JsonApi extends AbstractFormatter
 {
 
     /**
-     * @param \Serializer\Normalizer\Resource\Resource $resource
+     * @param ResourceInterface $resource
      *
      * @return array
      */
-    public function format(Resource $resource) : array
+    public function format(ResourceInterface $resource) : array
     {
         $links = $this->formatLinks($resource);
-        $data = $this->formatData($resource);
+
+        if($resource instanceof Resource){
+            $data['data'] = $this->formatData($resource);
+
+        }elseif ($resource instanceof ResourceSet){
+            foreach ($resource->getResources() as $subresource) {
+                $data['data'][] = $this->formatData($subresource);
+            }
+        }
+
         $included = $this->formatIncluded($resource);
 
         return $links + $data + $included;
@@ -37,7 +47,7 @@ class JsonApi extends AbstractFormatter
      *
      * @return array
      */
-    protected function formatLinks(Resource $resource) : array
+    protected function formatLinks(ResourceInterface $resource) : array
     {
         $links = ["links" => ["self" => $resource->getBaseUri() . $resource->getName()]];
         if ($this->hasPaginer()) {
@@ -65,9 +75,7 @@ class JsonApi extends AbstractFormatter
      */
     protected function formatData(Resource $resource, Resource $parentResource = null)
     {
-
-        $propertiesWithoutId = $resource->getProperties();
-        unset($propertiesWithoutId['id']);
+        $data = [];
 
         if (!empty($parentResource)) {
             $link = $parentResource->getBaseUri() . $parentResource->getName() . '/' . $parentResource->getProperties()['id'] . '/' . $resource->getName();
@@ -75,19 +83,21 @@ class JsonApi extends AbstractFormatter
             $link = $resource->getBaseUri() . $resource->getName() . '/' . $resource->getProperties()['id'];
         }
 
-        $data = [
-            "data" => [
+
+        $propertiesWithoutId = $resource->getProperties();
+        unset($propertiesWithoutId['id']);
+
+        $data += [
                 "type"       => $resource->getName(),
                 "id"         => $resource->getProperties()['id'],
                 "attributes" => $propertiesWithoutId,
-            ],
         ];
 
         if (!empty($resource->getRelations()) && !empty($resource->getRelations()->getResources())) {
-            $data['data'] += ["relationships" => $this->formattedRelations($resource->getRelations(), $resource)];
+            $data += ["relationships" => $this->formattedRelations($resource->getRelations(), $resource)];
         }
 
-        $data['data'] += ["links" => ["self" => $link]];
+        $data += ["links" => ["self" => $link]];
 
 
         return $data;

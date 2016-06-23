@@ -10,6 +10,7 @@ namespace Serializer\Formatter;
 
 
 use Serializer\Normalizer\Resource\Resource;
+use Serializer\Normalizer\Resource\ResourceInterface;
 
 /**
  * Class DataArray
@@ -19,23 +20,47 @@ class DataArray extends AbstractFormatter
 {
 
     /**
-     * @param \Serializer\Normalizer\Resource\Resource $resource
+     * @param Resource $resource
      *
      * @return array
      */
-    public function format(Resource $resource) : array
+    public function format(ResourceInterface $resource) : array
     {
-        $dataArray = [
-            'resource_id' => $resource->getId(),
+        if($resource instanceof Resource) {
+            $dataArray = [
+                'resource_id' => $resource->getId(),
 
-            $resource->getName() => [
-                'data' => $resource->getProperties(),
-            ],
-        ];
+                $resource->getName() => [
+                    'data' => $resource->getProperties(),
+                ],
+            ];
 
-        if (!empty($resource->getRelations())) {
-            $dataArray += ['relations' => $this->getRelations($resource)];
+            if (!empty($resource->getRelations())) {
+                $dataArray += ['relations' => $this->getRelations($resource)];
+            }
+        }else{
+            $dataArray = [];
+            /** @var  \Serializer\Normalizer\Resource\Resource $subresource */
+            foreach ($resource as $subresource) {
+                $data = [
+                    'resource_id' => $subresource->getId(),
+
+                    $subresource->getName() => [
+                        'data' => $subresource->getProperties(),
+                    ],
+                ];
+
+                if (!empty($subresource->getRelations())) {
+                    $data += ['relations' => $this->getRelations($subresource)];
+                }
+
+                $dataArray[] = $data;
+            }
         }
+
+
+
+
 
         return $dataArray;
     }
@@ -43,14 +68,14 @@ class DataArray extends AbstractFormatter
     /**
      * Extract the relations of the resource to make an formatted array.
      *
-     * @param \Serializer\Normalizer\Resource\Resource $resource
+     * @param Resource $resource
      *
      * @return array
      */
     protected function getRelations(Resource $resource)
     {
         $formattedRelations = [];
-        /** @var \Serializer\Normalizer\Resource\Resource $subResource */
+        /** @var Resource $subResource */
         foreach ($resource->getRelations() as $subResource) {
             $formattedRelations[] = [$subResource->getName() => ['data' => $subResource->getProperties()]];
         }
