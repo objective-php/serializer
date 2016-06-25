@@ -33,10 +33,8 @@ class UnitTester extends \Codeception\Actor
 
 // the connection configuration
         $dbParams = [
-            'driver'   => 'pdo_mysql',
-            'user'     => 'root',
-            'password' => 'root',
-            'dbname'   => 'Chinook',
+            'driver'   => 'pdo_sqlite',
+            'path'   => __DIR__ . '/../_data/albums.sqlite',
         ];
 
         $config = Setup::createAnnotationMetadataConfiguration(['/'], true, null, null, false);

@@ -6,11 +6,11 @@
  * Time: 12:33
  */
 
-namespace Serializer\Formatter;
+namespace ObjectivePHP\Serializer\Formatter;
 
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Normalizer\Resource\ResourceInterface;
-use Serializer\Normalizer\Resource\ResourceSet;
+use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceSet;
 
 /**
  * Class JsonApi

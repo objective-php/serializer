@@ -1,6 +1,6 @@
 <?php
 
-namespace Serializer\examples;
+namespace Tests\Example;
 
 use Doctrine\ORM\Mapping as ORM;
 

@@ -1,6 +1,6 @@
 {
-  "name": "neofox/json-serializer",
-  "license": "MIT",
+  "name": "objective-php/serializer",
+  "license": "GPL-3.0",
   "authors": [
     {
       "name": "Jerome Schaeffer",
@@ -9,9 +9,9 @@
   ],
   "autoload": {
     "psr-4": {
-      "Serializer\\": "src/"
+      "ObjectivePHP\\Serializer\\": "src/"
     },
-    "classmap": ["examples"]
+    "classmap": ["tests/_data/Example"]
   },
   "require": {
     "doctrine/orm": "^2.5",

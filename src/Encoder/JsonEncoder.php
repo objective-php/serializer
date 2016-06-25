@@ -6,11 +6,11 @@
  * Time: 12:20
  */
 
-namespace Serializer\Encoder;
+namespace ObjectivePHP\Serializer\Encoder;
 
 
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
 
 /**
  * The class JsonEncoder is gonna use the formatter provided to transform

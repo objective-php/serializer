@@ -6,11 +6,11 @@
  * Time: 10:10
  */
 
-namespace Serializer\Formatter;
+namespace ObjectivePHP\Serializer\Formatter;
 
 
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
 
 /**
  * Class DataArray

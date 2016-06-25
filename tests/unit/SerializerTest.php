@@ -1,69 +1,77 @@
 <?php
 
 
-use Serializer\Artist;
-use Serializer\Encoder\JsonEncoder;
-use Serializer\Normalizer\DoctrineNormalizer;
-use Serializer\Serializer;
+    use ObjectivePHP\Serializer\Encoder\JsonEncoder;
+    use ObjectivePHP\Serializer\Paginer\PagerFantaAdapter;
+    use ObjectivePHP\Serializer\Serializer;
+    use Pagerfanta\Adapter\ArrayAdapter;
+    use Pagerfanta\Pagerfanta;
+    use ObjectivePHP\Serializer\Encoder\EncoderInterface;
+    use ObjectivePHP\Serializer\Formatter\FormatterInterface;
+    use ObjectivePHP\Serializer\Normalizer\NormalizerInterface;
 
-class SerializerTest extends \Codeception\TestCase\Test
-{
-    /**
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /** @var  \Doctrine\ORM\EntityManager */
-    protected $entityManager;
-
-    /** @var  \Serializer\Normalizer\NormalizerInterface */
-    protected $normalizer;
-    /** @var  \Serializer\Formatter\FormatterInterface */
-    protected $formatter;
-    /** @var  \Serializer\Encoder\EncoderInterface */
-    protected $encoder;
-
-
-    protected $testData;
-
-    function _before()
+    class SerializerTest extends \Codeception\TestCase\Test
     {
-        $this->entityManager = $this->getModule('Doctrine2')->em;
+        /**
+         * @var UnitTester
+         */
+        protected $tester;
 
-        $this->normalizer = new TestNormalizer();
-        $this->formatter = new TestFormatter();
-        $this->encoder = new JsonEncoder();
+        /** @var  \Doctrine\ORM\EntityManager */
+        protected $entityManager;
 
-        $this->testData = ['name' => 'data', 'props' => ['prop1' => 'val1', 'prop2' => 'val2']];
+        /** @var  NormalizerInterface */
+        protected $normalizer;
+
+        /** @var  FormatterInterface */
+        protected $formatter;
+
+        /** @var  EncoderInterface */
+        protected $encoder;
+
+
+        protected $testData;
+
+        function _before()
+        {
+            $this->entityManager = $this->getModule('Doctrine2')->em;
+
+            $this->normalizer = new TestNormalizer();
+            $this->formatter  = new TestFormatter();
+            $this->encoder    = new JsonEncoder();
+
+            $this->testData = ['name' => 'data', 'props' => ['prop1' => 'val1', 'prop2' => 'val2']];
+        }
+
+        public function testSerializer()
+        {
+            $serializer = new Serializer();
+
+            $serializer->setPaginer(
+                new PagerFantaAdapter(
+                    new Pagerfanta(
+                        new ArrayAdapter([$this->testData]))
+                )
+            );
+
+            $this->tester->assertThrows(function () use ($serializer)
+            {
+                $serializer->serialize('somethingsomething');
+            }, 'Exception', 'An exception as to be thrown.');
+
+            $serializer->setNormalizer($this->normalizer);
+
+            $this->tester->assertThrows(function () use ($serializer)
+            {
+                $serializer->serialize('somethingsomething');
+            }, 'Exception', 'An exception as to be thrown.');
+
+            $serializer->setFormatter($this->formatter);
+            $serializer->setEncoder($this->encoder);
+
+            $serializedData = $serializer->serialize($this->testData);
+
+
+            $this->assertEquals('{"name":"data","page":1}', $serializedData);
+        }
     }
-
-    public function testSerializer()
-    {
-        $serializer = new Serializer();
-
-        $serializer->setPaginer(
-            new \Serializer\Paginer\PagerFantaAdapter(
-                new Pagerfanta\Pagerfanta(
-                    new \Pagerfanta\Adapter\ArrayAdapter([$this->testData]))
-            )
-        );
-
-        $this->tester->assertThrows(function () use ($serializer){
-            $serializer->serialize('somethingsomething');
-        }, 'Exception', 'An exception as to be thrown.');
-
-        $serializer->setNormalizer($this->normalizer);
-        
-        $this->tester->assertThrows(function () use ($serializer){
-            $serializer->serialize('somethingsomething');
-        }, 'Exception', 'An exception as to be thrown.');
-
-        $serializer->setFormatter($this->formatter);
-        $serializer->setEncoder($this->encoder);
-
-        $serializedData = $serializer->serialize($this->testData);
-
-
-        $this->assertEquals('{"name":"data","page":1}', $serializedData);
-    }
-}

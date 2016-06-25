@@ -6,7 +6,7 @@
  * Time: 09:23
  */
 
-namespace Serializer\Paginer;
+namespace ObjectivePHP\Serializer\Paginer;
 
 
 use Pagerfanta\Pagerfanta;

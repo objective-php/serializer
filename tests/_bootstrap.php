@@ -1,60 +1,95 @@
 <?php
 // This is global bootstrap for autoloading
-
-
-use Serializer\Normalizer\Resource\ResourceInterface;
-
-class TestFormatter extends \Serializer\Formatter\AbstractFormatter
-{
+    
+    
+    use ObjectivePHP\Serializer\Encoder\AbstractEncoder;
+    use ObjectivePHP\Serializer\Formatter\AbstractFormatter;
+    use ObjectivePHP\Serializer\Normalizer\NormalizerInterface;
+    use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+    use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+    
     /**
-     * @param Resource|\Serializer\Normalizer\Resource\Resource $resource
-     *
-     * @return array
+     * Class TestFormatter
      */
-    public function format(ResourceInterface $resource) : array
+    class TestFormatter extends AbstractFormatter
     {
-        if($resource instanceof \Serializer\Normalizer\Resource\Resource){
-            $data = ['name' => $resource->getName()];
+        /**
+         * @param ResourceInterface|Resource $resource
+         *
+         * @return array
+         */
+        public function format(ResourceInterface $resource) : array
+        {
+            if ($resource instanceof Resource)
+            {
+                $data = ['name' => $resource->getName()];
+                
+                if ($this->hasPaginer())
+                {
+                    $data += ['page' => $this->getPaginer()->getCurrentPage()];
+                }
+            }
+            else
+            {
+                $data = [];
+                foreach ($resource as $singleResource)
+                {
+                    $data[] = ['name' => $singleResource->getName()];
+                }
+                
+                if ($this->hasPaginer())
+                {
+                    $data += ['page' => $this->getPaginer()->getCurrentPage()];
+                }
+            }
+            
+            return $data;
+        }
+    }
+    
+    /**
+     * Class TestEncoder
+     */
+    class TestEncoder extends AbstractEncoder
+    {
 
-            if($this->hasPaginer()){
-                $data += ['page' => $this->getPaginer()->getCurrentPage()];
-            }
-        }else{
-            $data = [];
-            foreach ($resource as $singleResource) {
-                $data[] = ['name' => $singleResource->getName()];
-            }
-
-            if($this->hasPaginer()){
-                $data += ['page' => $this->getPaginer()->getCurrentPage()];
-            }
+        /**
+         * @param ResourceInterface $data
+         *
+         * @return string
+         */
+        public function encode(ResourceInterface $data) : string
+        {
+            return 'encoded data';
         }
 
-        return $data;
+        /**
+         * @param $data
+         *
+         * @return ResourceInterface
+         */
+        public function unencode($data) : ResourceInterface
+        {
+        }
     }
-}
-
-class TestEncoder extends \Serializer\Encoder\AbstractEncoder
-{
-
-    public function encode(ResourceInterface $data) : string
+    
+    /**
+     * Class TestNormalizer
+     */
+    class TestNormalizer implements NormalizerInterface
     {
-        return 'encoded data';
+
+        /**
+         * @param $data
+         *
+         * @return ResourceInterface
+         */
+        public function normalize($data) : ResourceInterface
+        {
+            $resource = new Resource();
+            $resource->setName($data['name']);
+            $resource->setProperties($data['props']);
+            
+            return $resource;
+        }
     }
-
-    public function unencode($data) : ResourceInterface
-    {
-    }
-}
-
-class TestNormalizer implements \Serializer\Normalizer\NormalizerInterface{
-
-    public function normalize($data) : ResourceInterface
-    {
-        $resource = new \Serializer\Normalizer\Resource\Resource();
-        $resource->setName($data['name']);
-        $resource->setProperties($data['props']);
-
-        return $resource;
-    }
-}

@@ -6,10 +6,10 @@
  * Time: 12:34
  */
 
-namespace Serializer\Normalizer;
+namespace ObjectivePHP\Serializer\Normalizer;
 
 
-use Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
 
 /**
  * Interface NormalizerInterface

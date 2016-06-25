@@ -6,7 +6,7 @@
  * Time: 14:55
  */
 
-namespace Serializer\Normalizer\Resource;
+namespace ObjectivePHP\Serializer\Normalizer\Resource;
 
 /**
  * Class Resource

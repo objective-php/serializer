@@ -1,9 +1,11 @@
 <?php
 
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Normalizer\Resource\ResourceSet;
+    use Codeception\TestCase\Test;
+    use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+    use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+    use ObjectivePHP\Serializer\Normalizer\Resource\ResourceSet;
 
-class ResourceTest extends \Codeception\TestCase\Test
+class ResourceTest extends Test
 {
     /**
      * @var UnitTester
@@ -23,7 +25,7 @@ class ResourceTest extends \Codeception\TestCase\Test
     }
 
     function testResourceIsAResource(){
-        $this->assertInstanceOf(\Serializer\Normalizer\Resource\ResourceInterface::class, $this->resource);
+        $this->assertInstanceOf(ResourceInterface::class, $this->resource);
     }
 
     function testResourceHaveAnUniqueId()
@@ -58,7 +60,7 @@ class ResourceTest extends \Codeception\TestCase\Test
 
     public function testResourceSetIsAResource()
     {
-        $this->assertInstanceOf(\Serializer\Normalizer\Resource\ResourceInterface::class, $this->resourceSet);
+        $this->assertInstanceOf(ResourceInterface::class, $this->resourceSet);
     }
 
     function testResourceSetHaveAnUniqueId()

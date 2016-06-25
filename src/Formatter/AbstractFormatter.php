@@ -6,10 +6,10 @@
  * Time: 09:48
  */
 
-namespace Serializer\Formatter;
+namespace ObjectivePHP\Serializer\Formatter;
 
 
-use Serializer\Paginer\PaginerInterface;
+use ObjectivePHP\Serializer\Paginer\PaginerInterface;
 
 abstract class AbstractFormatter implements FormatterInterface
 {

@@ -1,10 +1,10 @@
 <?php
 
 
-use Serializer\Formatter\DataArray;
-use Serializer\Formatter\JsonApi;
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Normalizer\Resource\ResourceSet;
+use ObjectivePHP\Serializer\Formatter\DataArray;
+use ObjectivePHP\Serializer\Formatter\JsonApi;
+use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceSet;
 
 class FormatterTest extends \Codeception\TestCase\Test
 {
@@ -24,14 +24,14 @@ class FormatterTest extends \Codeception\TestCase\Test
             ->setName('wow')
             ->setProperties(['such' => 'relation'])
         ;
-        $resource = (new \Serializer\Normalizer\Resource\Resource())
+        $resource = (new \ObjectivePHP\Serializer\Normalizer\Resource\Resource())
             ->setName('test')
             ->setRelations((new ResourceSet())->addChild($resource1))
         ;
 
         $formatedData = $dataArray->format($resource);
 
-        $this->assertInstanceOf(\Serializer\Formatter\FormatterInterface::class, $dataArray);
+        $this->assertInstanceOf(\ObjectivePHP\Serializer\Formatter\FormatterInterface::class, $dataArray);
         $this->assertEquals(
             ['resource_id' => $resource->getId(),
              'test' => ['data' => null],
@@ -72,10 +72,10 @@ class FormatterTest extends \Codeception\TestCase\Test
 
     public function testJsonApiFormatterWithPagination()
     {
-        $resources = \Codeception\Util\Stub::factory(\Serializer\Normalizer\Resource\Resource::class, 15);
+        $resources = \Codeception\Util\Stub::factory(\ObjectivePHP\Serializer\Normalizer\Resource\Resource::class, 15);
 
         //TODO: do an other test with pagination
-        //$formatter->setPaginer(new \Serializer\Paginer\PagerFantaAdapter(new \Pagerfanta\Pagerfanta(new \Pagerfanta\Adapter\ArrayAdapter([$resource]))));
+        //$formatter->setPaginer(new \ObjectivePHP\Serializer\Paginer\PagerFantaAdapter(new \Pagerfanta\Pagerfanta(new \Pagerfanta\Adapter\ArrayAdapter([$resource]))));
 
     }
 

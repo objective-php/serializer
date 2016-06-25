@@ -6,7 +6,7 @@
  * Time: 09:15
  */
 
-namespace Serializer\Paginer;
+namespace ObjectivePHP\Serializer\Paginer;
 
 
 interface PaginerInterface

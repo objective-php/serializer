@@ -6,11 +6,11 @@
  * Time: 12:37
  */
 
-namespace Serializer\Encoder;
+namespace ObjectivePHP\Serializer\Encoder;
 
 
-use Serializer\Formatter\FormatterInterface;
-use Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Formatter\FormatterInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
 
 /**
  * Interface EncoderInterface

@@ -1,20 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 13/06/2016
- * Time: 17:28
- */
 
-namespace Serializer;
+    namespace ObjectivePHP\Serializer;
 
 
-use Serializer\Encoder\EncoderInterface;
-use Serializer\Encoder\JsonEncoder;
-use Serializer\Formatter\FormatterInterface;
-use Serializer\Normalizer\NormalizerInterface;
-use Serializer\Normalizer\Resource\ResourceInterface;
-use Serializer\Paginer\PaginerInterface;
+use ObjectivePHP\Serializer\Encoder\EncoderInterface;
+use ObjectivePHP\Serializer\Encoder\JsonEncoder;
+use ObjectivePHP\Serializer\Formatter\FormatterInterface;
+use ObjectivePHP\Serializer\Normalizer\NormalizerInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Paginer\PaginerInterface;
 
 //TODO: make classes for exception (we're having a lot of differents exceptions now)
 /**

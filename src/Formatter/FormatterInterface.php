@@ -6,11 +6,11 @@
  * Time: 12:33
  */
 
-namespace Serializer\Formatter;
+namespace ObjectivePHP\Serializer\Formatter;
 
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Normalizer\Resource\ResourceInterface;
-use Serializer\Paginer\PaginerInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Paginer\PaginerInterface;
 
 /**
  * Interface FormatterInterface

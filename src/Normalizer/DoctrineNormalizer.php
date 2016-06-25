@@ -6,7 +6,7 @@
  * Time: 14:38
  */
 
-namespace Serializer\Normalizer;
+namespace ObjectivePHP\Serializer\Normalizer;
 
 
 use Doctrine\ORM\EntityManager;
@@ -14,10 +14,10 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
-use Serializer\examples\Artist;
-use Serializer\Normalizer\Resource\Resource;
-use Serializer\Normalizer\Resource\ResourceInterface;
-use Serializer\Normalizer\Resource\ResourceSet;
+use ObjectivePHP\Serializer\examples\Artist;
+use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Normalizer\Resource\ResourceSet;
 
 /**
  * The doctrine normalizer extract from a doctrine entity all valuable information
