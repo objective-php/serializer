@@ -8,8 +8,9 @@ setup:
 
 test:
     codeception:
+        config: "codeception.yml"
         path: "tests/"
-        args: "report.xml --coverage-html"
+
     php_loc:
         directory: "src/"
 
