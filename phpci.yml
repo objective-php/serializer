@@ -9,7 +9,6 @@ setup:
 test:
     codeception:
         config: "codeception.yml"
-        path: "tests/"
 
     php_loc:
         directory: "src/"
