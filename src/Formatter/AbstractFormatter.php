@@ -1,37 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 17/06/2016
- * Time: 09:48
- */
 
 namespace ObjectivePHP\Serializer\Formatter;
 
 
-use ObjectivePHP\Serializer\Paginer\PaginerInterface;
+use ObjectivePHP\Serializer\Paginator\PaginatorInterface;
 
 abstract class AbstractFormatter implements FormatterInterface
 {
-    /** @var  PaginerInterface */
-    protected $paginer;
+    /** @var  PaginatorInterface */
+    protected $paginator;
 
-    public function getPaginer() : PaginerInterface
+    public function getPaginator() : PaginatorInterface
     {
-        return $this->paginer;
+        return $this->paginator;
     }
 
-    public function setPaginer(PaginerInterface $paginer)
+    public function setPaginator(PaginatorInterface $paginator)
     {
-        $this->paginer = $paginer;
+        $this->paginator = $paginator;
 
         return $this;
     }
 
-    public function hasPaginer() : bool
+    public function hasPaginator() : bool
     {
-        return isset($this->paginer);
+        return isset($this->paginator);
     }
-
 
 }

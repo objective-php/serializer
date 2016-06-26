@@ -1,85 +1,87 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 14/06/2016
- * Time: 10:10
- */
 
-namespace ObjectivePHP\Serializer\Formatter;
+    namespace ObjectivePHP\Serializer\Formatter;
 
 
-use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
-use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
-
-/**
- * Class DataArray
- * @package Serializer\Formatter
- */
-class DataArray extends AbstractFormatter
-{
+    use ObjectivePHP\Serializer\Resource\Resource;
+    use ObjectivePHP\Serializer\Resource\ResourceInterface;
+    use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
 
     /**
-     * @param Resource $resource
+     * Class DataArray
      *
-     * @return array
+     * @package ObjectivePHP\Serializer\Formatter
      */
-    public function format(ResourceInterface $resource) : array
+    class DataArray extends AbstractFormatter
     {
-        if($resource instanceof Resource) {
-            $dataArray = [
-                'resource_id' => $resource->getId(),
 
-                $resource->getName() => [
-                    'data' => $resource->getProperties(),
-                ],
-            ];
+        /**
+         *
+         * @param SerializableResourceInterface $resource
+         *
+         * @return array
+         */
+        public function format(SerializableResourceInterface $resource) : array
+        {
+            if ($resource instanceof Resource)
+            {
+                $dataArray = [
+                    'resource_id' => $resource->getId(),
 
-            if (!empty($resource->getRelations())) {
-                $dataArray += ['relations' => $this->getRelations($resource)];
-            }
-        }else{
-            $dataArray = [];
-            /** @var  \Serializer\Normalizer\Resource\Resource $subresource */
-            foreach ($resource as $subresource) {
-                $data = [
-                    'resource_id' => $subresource->getId(),
-
-                    $subresource->getName() => [
-                        'data' => $subresource->getProperties(),
+                    $resource->getName() => [
+                        'data' => $resource->getProperties(),
                     ],
                 ];
 
-                if (!empty($subresource->getRelations())) {
-                    $data += ['relations' => $this->getRelations($subresource)];
+                if (!empty($resource->getRelations()))
+                {
+                    $dataArray += ['relations' => $this->getRelations($resource)];
                 }
-
-                $dataArray[] = $data;
             }
+            else
+            {
+                $dataArray = [];
+
+                /** @var Resource $subResource */
+                foreach ($resource as $subResource)
+                {
+                    $data = [
+                        'resource_id' => $subResource->getId(),
+
+                        $subResource->getName() => [
+                            'data' => $subResource->getProperties(),
+                        ],
+                    ];
+
+                    if (!empty($subResource->getRelations()))
+                    {
+                        $data += ['relations' => $this->getRelations($subResource)];
+                    }
+
+                    $dataArray[] = $data;
+                }
+            }
+
+
+            return $dataArray;
         }
 
+        /**
+         * Extract the relations of the resource to make a formatted array.
+         *
+         * @param ResourceInterface $resource
+         *
+         * @return array
+         */
+        protected function getRelations(ResourceInterface $resource)
+        {
+            $formattedRelations = [];
+            /** @var Resource $subResource */
+            foreach ($resource->getRelations() as $subResource)
+            {
+                $formattedRelations[] = [$subResource->getName() => ['data' => $subResource->getProperties()]];
+            }
 
-
-
-
-        return $dataArray;
-    }
-
-    /**
-     * Extract the relations of the resource to make an formatted array.
-     *
-     * @param Resource $resource
-     *
-     * @return array
-     */
-    protected function getRelations(Resource $resource)
-    {
-        $formattedRelations = [];
-        /** @var Resource $subResource */
-        foreach ($resource->getRelations() as $subResource) {
-            $formattedRelations[] = [$subResource->getName() => ['data' => $subResource->getProperties()]];
+            return $formattedRelations;
         }
-
-        return $formattedRelations;
     }
-}

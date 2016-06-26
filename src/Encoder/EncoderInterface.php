@@ -10,28 +10,29 @@ namespace ObjectivePHP\Serializer\Encoder;
 
 
 use ObjectivePHP\Serializer\Formatter\FormatterInterface;
-use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
 
 /**
  * Interface EncoderInterface
- * @package Serializer\Encoder
+ * @package ObjectivePHP\Serializer\Encoder
  */
 interface EncoderInterface
 {
 
     /**
-     * @param ResourceInterface $data
+     * @param SerializableResourceInterface $data
      *
      * @return string
      */
-    public function encode(ResourceInterface $data) : string;
+    public function encode(SerializableResourceInterface $data) : string;
 
     /**
      * @param $data
      *
      * @return ResourceInterface
      */
-    public function unencode($data) : ResourceInterface;
+    public function decode($data);
 
     public function getFormatter() : FormatterInterface;
 

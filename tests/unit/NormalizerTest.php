@@ -2,11 +2,10 @@
     
     
     use Doctrine\ORM\EntityManager;
-    use Doctrine\ORM\EntityRepository;
     use Doctrine\ORM\Mapping\ClassMetadata;
     use ObjectivePHP\Serializer\Normalizer\DoctrineNormalizer;
-    use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
-    use ObjectivePHP\Serializer\Normalizer\Resource\ResourceSet;
+    use ObjectivePHP\Serializer\Resource\ResourceSet;
+    use ObjectivePHP\Serializer\Resource\Resource;
     use Tests\Example\Album;
     use Tests\Example\Artist;
     

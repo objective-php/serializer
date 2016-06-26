@@ -1,12 +1,11 @@
 <?php
-
-
+    
+    
     use Codeception\TestCase\Test;
     use Codeception\Util\Stub;
     use ObjectivePHP\Serializer\Artist;
-    use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
-    use ObjectivePHP\Serializer\Paginer\PagerFantaAdapter;
-    use ObjectivePHP\Serializer\Serializer;
+    use ObjectivePHP\Serializer\Paginator\PagerFantaAdapter;
+    use ObjectivePHP\Serializer\Resource\Resource;
     use Pagerfanta\Adapter\ArrayAdapter;
     use Pagerfanta\Pagerfanta;
     

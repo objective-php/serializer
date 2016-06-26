@@ -1,16 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 13/06/2016
- * Time: 14:55
- */
 
-namespace ObjectivePHP\Serializer\Normalizer\Resource;
+namespace ObjectivePHP\Serializer\Resource;
+
+use ObjectivePHP\Primitives\String\Str;
+use ObjectivePHP\Serializer\Resource\ResourceSet;
 
 /**
  * Class Resource
- * @package Serializer\Normalizer\Resource
+ * @package ObjectivePHP\Serializer\Resource
  */
 class Resource extends AbstractResource
 {
@@ -103,12 +100,9 @@ class Resource extends AbstractResource
             $uri = 'http://example.com/api/';
         }
 
-        if (substr($uri, -1) != '/') {
-            $uri .= '/';
-        }
-        $uri = str_replace(' ', '-', $uri);
+        $uri = (new Str($uri))->trim('/', Str::RIGHT)->append('/')->replace(' ', '-')->lower();
 
-        return strtolower($uri);
+        return (string) $uri;
     }
 
     /**

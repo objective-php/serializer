@@ -5,8 +5,9 @@
     use ObjectivePHP\Serializer\Encoder\AbstractEncoder;
     use ObjectivePHP\Serializer\Formatter\AbstractFormatter;
     use ObjectivePHP\Serializer\Normalizer\NormalizerInterface;
-    use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
-    use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+    use ObjectivePHP\Serializer\Resource\Resource;
+    use ObjectivePHP\Serializer\Resource\ResourceInterface;
+    use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
     
     /**
      * Class TestFormatter
@@ -14,32 +15,33 @@
     class TestFormatter extends AbstractFormatter
     {
         /**
-         * @param ResourceInterface|Resource $resource
+         * @param SerializableResourceInterface $resource
          *
          * @return array
          */
-        public function format(ResourceInterface $resource) : array
+        public function format(SerializableResourceInterface $resource) : array
         {
             if ($resource instanceof Resource)
             {
                 $data = ['name' => $resource->getName()];
                 
-                if ($this->hasPaginer())
+                if ($this->hasPaginator())
                 {
-                    $data += ['page' => $this->getPaginer()->getCurrentPage()];
+                    $data += ['page' => $this->getPaginator()->getCurrentPage()];
                 }
             }
             else
             {
                 $data = [];
+                /** @var ResourceInterface $singleResource */
                 foreach ($resource as $singleResource)
                 {
                     $data[] = ['name' => $singleResource->getName()];
                 }
                 
-                if ($this->hasPaginer())
+                if ($this->hasPaginator())
                 {
-                    $data += ['page' => $this->getPaginer()->getCurrentPage()];
+                    $data += ['page' => $this->getPaginator()->getCurrentPage()];
                 }
             }
             
@@ -54,11 +56,11 @@
     {
 
         /**
-         * @param ResourceInterface $data
+         * @param SerializableResourceInterface $data
          *
          * @return string
          */
-        public function encode(ResourceInterface $data) : string
+        public function encode(SerializableResourceInterface $data) : string
         {
             return 'encoded data';
         }
@@ -66,9 +68,9 @@
         /**
          * @param $data
          *
-         * @return ResourceInterface
+         * @return SerializableResourceInterface
          */
-        public function unencode($data) : ResourceInterface
+        public function decode($data)
         {
         }
     }
@@ -82,9 +84,9 @@
         /**
          * @param $data
          *
-         * @return ResourceInterface
+         * @return SerializableResourceInterface
          */
-        public function normalize($data) : ResourceInterface
+        public function normalize($data) : SerializableResourceInterface
         {
             $resource = new Resource();
             $resource->setName($data['name']);

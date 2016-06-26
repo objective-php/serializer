@@ -1,36 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 17/06/2016
- * Time: 09:23
- */
 
-namespace ObjectivePHP\Serializer\Paginer;
+namespace ObjectivePHP\Serializer\Paginator;
 
 
 use Pagerfanta\Pagerfanta;
 
 /**
  * Class PagerFantaAdapter
- * @package Serializer\Paginer
+ * @package ObjectivePHP\Serializer\Paginator
  */
-class PagerFantaAdapter implements PaginerInterface
+class PagerFantaAdapter implements PaginatorInterface
 {
     /**
      * @var Pagerfanta
      */
-    protected $paginer;
+    protected $paginator;
 
 
     /**
      * PagerFantaAdapter constructor.
      *
-     * @param Pagerfanta $paginer
+     * @param Pagerfanta $paginator
      */
-    public function __construct(Pagerfanta $paginer)
+    public function __construct(Pagerfanta $paginator)
     {
-        $this->paginer = $paginer;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -40,7 +34,7 @@ class PagerFantaAdapter implements PaginerInterface
      */
     public function getTotal() : int
     {
-        return $this->paginer->count();
+        return $this->paginator->count();
     }
 
     /**
@@ -50,7 +44,7 @@ class PagerFantaAdapter implements PaginerInterface
      */
     public function getCount() : int
     {
-        return count($this->paginer->getCurrentPageResults());
+        return count($this->paginator->getCurrentPageResults());
     }
 
     /**
@@ -60,7 +54,7 @@ class PagerFantaAdapter implements PaginerInterface
      */
     public function getPerPage() : int
     {
-        return $this->paginer->getMaxPerPage();
+        return $this->paginator->getMaxPerPage();
     }
 
     /**
@@ -70,7 +64,7 @@ class PagerFantaAdapter implements PaginerInterface
      */
     public function getLastPage() : int
     {
-        return $this->paginer->getNbPages();
+        return $this->paginator->getNbPages();
     }
 
     /**
@@ -80,6 +74,6 @@ class PagerFantaAdapter implements PaginerInterface
      */
     public function getCurrentPage() : int
     {
-        return $this->paginer->getCurrentPage();
+        return $this->paginator->getCurrentPage();
     }
 }

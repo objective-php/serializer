@@ -9,11 +9,12 @@
 namespace ObjectivePHP\Serializer\Normalizer;
 
 
-use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Resource\ResourceInterface;
+use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
 
 /**
  * Interface NormalizerInterface
- * @package Serializer\Normalizer
+ * @package ObjectivePHP\Serializer\Normalizer
  */
 interface NormalizerInterface
 {
@@ -21,7 +22,7 @@ interface NormalizerInterface
     /**
      * @param $data
      *
-     * @return ResourceInterface
+     * @return SerializableResourceInterface
      */
-    public function normalize($data) : ResourceInterface;
+    public function normalize($data) : SerializableResourceInterface;
 }

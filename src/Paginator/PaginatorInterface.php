@@ -1,15 +1,14 @@
 <?php
+
+namespace ObjectivePHP\Serializer\Paginator;
+
+
 /**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 17/06/2016
- * Time: 09:15
+ * Interface PaginatorInterface
+ *
+ * @package ObjectivePHP\Serializer\Paginator
  */
-
-namespace ObjectivePHP\Serializer\Paginer;
-
-
-interface PaginerInterface
+interface PaginatorInterface
 {
 
     /**

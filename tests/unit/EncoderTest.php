@@ -4,11 +4,11 @@
     use Codeception\TestCase\Test;
     use Codeception\Util\Stub;
     use ObjectivePHP\Serializer\Encoder\JsonEncoder;
-    use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
-    use ObjectivePHP\Serializer\Normalizer\Resource\ResourceSet;
+    use ObjectivePHP\Serializer\Resource\ResourceSet;
+    use ObjectivePHP\Serializer\Resource\Resource;
     use Pagerfanta\Adapter\ArrayAdapter;
     use Pagerfanta\Pagerfanta;
-
+    
     class EncoderTest extends Test
     {
         /**
@@ -37,7 +37,7 @@
 
             $this->tester->assertThrows(function () use ($encoder)
             {
-                $encoder->unencode('somethingsomething');
+                $encoder->decode('somethingsomething');
             }, 'Exception', 'An exception as to be thrown.');
 
         }
@@ -46,8 +46,8 @@
         {
             $resource = Stub::make(Resource::class);
             $encoder  = new JsonEncoder();
-            $fomatter = (new TestFormatter())->setPaginer(
-                new \ObjectivePHP\Serializer\Paginer\PagerFantaAdapter(
+            $fomatter = (new TestFormatter())->setPaginator(
+                new \ObjectivePHP\Serializer\Paginator\PagerFantaAdapter(
                     new Pagerfanta(
                         new ArrayAdapter([])
                     )

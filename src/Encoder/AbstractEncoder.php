@@ -7,7 +7,7 @@ use ObjectivePHP\Serializer\Formatter\FormatterInterface;
 
 /**
  * Class AbstractEncoder
- * @package Serializer\Encoder
+ * @package ObjectivePHP\Serializer\Encoder
  */
 abstract class AbstractEncoder implements EncoderInterface
 {

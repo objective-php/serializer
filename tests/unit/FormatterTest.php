@@ -1,12 +1,12 @@
 <?php
-
-
-use ObjectivePHP\Serializer\Formatter\DataArray;
-use ObjectivePHP\Serializer\Formatter\JsonApi;
-use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
-use ObjectivePHP\Serializer\Normalizer\Resource\ResourceSet;
-
-class FormatterTest extends \Codeception\TestCase\Test
+    
+    
+    use ObjectivePHP\Serializer\Formatter\DataArray;
+    use ObjectivePHP\Serializer\Formatter\JsonApi;
+    use ObjectivePHP\Serializer\Resource\ResourceSet;
+    use ObjectivePHP\Serializer\Resource\Resource;
+    
+    class FormatterTest extends \Codeception\TestCase\Test
 {
     /**
      * @var UnitTester
@@ -24,7 +24,7 @@ class FormatterTest extends \Codeception\TestCase\Test
             ->setName('wow')
             ->setProperties(['such' => 'relation'])
         ;
-        $resource = (new \ObjectivePHP\Serializer\Normalizer\Resource\Resource())
+        $resource = (new \ObjectivePHP\Serializer\Resource\Resource())
             ->setName('test')
             ->setRelations((new ResourceSet())->addChild($resource1))
         ;
@@ -72,7 +72,7 @@ class FormatterTest extends \Codeception\TestCase\Test
 
     public function testJsonApiFormatterWithPagination()
     {
-        $resources = \Codeception\Util\Stub::factory(\ObjectivePHP\Serializer\Normalizer\Resource\Resource::class, 15);
+        $resources = \Codeception\Util\Stub::factory(\ObjectivePHP\Serializer\Resource\Resource::class, 15);
 
         //TODO: do an other test with pagination
         //$formatter->setPaginer(new \ObjectivePHP\Serializer\Paginer\PagerFantaAdapter(new \Pagerfanta\Pagerfanta(new \Pagerfanta\Adapter\ArrayAdapter([$resource]))));

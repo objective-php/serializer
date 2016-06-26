@@ -1,31 +1,47 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 13/06/2016
- * Time: 14:55
- */
 
-namespace ObjectivePHP\Serializer\Normalizer\Resource;
+namespace ObjectivePHP\Serializer\Resource;
 
 
+use ObjectivePHP\Serializer\Resource\Resource;
 use Traversable;
 
 /**
  * Class ResourceSet
- * @package Serializer\Normalizer\Resource
+ * @package ObjectivePHP\Serializer\Resource
  */
-class ResourceSet extends AbstractResource implements \IteratorAggregate
+class ResourceSet implements \IteratorAggregate, SerializableResourceInterface
 {
     /** @var array */
     protected $resources;
 
     /**
-     * @param Resource $resource
+     * @var string
+     */
+    protected $id;
+
+    /**
+     * AbstractResource constructor.
+     */
+    public function __construct()
+    {
+        $this->id = uniqid();
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param ResourceInterface $resource
      *
      * @return ResourceSet
      */
-    public function addChild(Resource $resource) : ResourceSet
+    public function addChild(ResourceInterface $resource) : ResourceSet
     {
         $this->resources[$resource->getId()] = $resource;
 
@@ -52,13 +68,13 @@ class ResourceSet extends AbstractResource implements \IteratorAggregate
     /**
      * @param $id
      *
-     * @return Resource
-     * @throws \Exception
+     * @return ResourceInterface
+     * @throws Exception
      */
-    public function getResource($id) : Resource
+    public function getResource($id) : ResourceInterface
     {
         if (!isset($this->resources[$id])) {
-            throw new \Exception(sprintf('There is no ressource with the id %s', $id));
+            throw new Exception(sprintf('There is no resource with id "%s"', $id));
         }
 
         return $this->resources[$id];

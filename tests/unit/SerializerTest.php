@@ -2,7 +2,7 @@
 
 
     use ObjectivePHP\Serializer\Encoder\JsonEncoder;
-    use ObjectivePHP\Serializer\Paginer\PagerFantaAdapter;
+    use ObjectivePHP\Serializer\Paginator\PagerFantaAdapter;
     use ObjectivePHP\Serializer\Serializer;
     use Pagerfanta\Adapter\ArrayAdapter;
     use Pagerfanta\Pagerfanta;
@@ -47,7 +47,7 @@
         {
             $serializer = new Serializer();
 
-            $serializer->setPaginer(
+            $serializer->setPaginator(
                 new PagerFantaAdapter(
                     new Pagerfanta(
                         new ArrayAdapter([$this->testData]))

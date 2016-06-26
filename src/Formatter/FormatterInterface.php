@@ -1,45 +1,39 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Neofox
- * Date: 13/06/2016
- * Time: 12:33
- */
+    
+    namespace ObjectivePHP\Serializer\Formatter;
 
-namespace ObjectivePHP\Serializer\Formatter;
-
-use ObjectivePHP\Serializer\Normalizer\Resource\Resource;
-use ObjectivePHP\Serializer\Normalizer\Resource\ResourceInterface;
-use ObjectivePHP\Serializer\Paginer\PaginerInterface;
-
-/**
- * Interface FormatterInterface
- * @package Serializer\Formatter
- */
-interface FormatterInterface
-{
+    use ObjectivePHP\Serializer\Paginator\PaginatorInterface;
+    use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
 
     /**
-     * @param ResourceInterface $resource
+     * Interface FormatterInterface
      *
-     * @return array
+     * @package ObjectivePHP\Serializer\Formatter
      */
-    public function format(ResourceInterface $resource) : array;
+    interface FormatterInterface
+    {
 
-    /**
-     * @return PaginerInterface
-     */
-    public function getPaginer() : PaginerInterface;
+        /**
+         * @param SerializableResourceInterface $resource
+         *
+         * @return array
+         */
+        public function format(SerializableResourceInterface $resource) : array;
 
-    /**
-     * @param PaginerInterface $paginer
-     *
-     * @return FormatterInterface
-     */
-    public function setPaginer(PaginerInterface $paginer);
+        /**
+         * @return PaginatorInterface
+         */
+        public function getPaginator() : PaginatorInterface;
 
-    /**
-     * @return bool
-     */
-    public function hasPaginer() : bool;
-}
+        /**
+         * @param PaginatorInterface $paginator
+         *
+         * @return FormatterInterface
+         */
+        public function setPaginator(PaginatorInterface $paginator);
+
+        /**
+         * @return bool
+         */
+        public function hasPaginator() : bool;
+    }
