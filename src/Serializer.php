@@ -9,6 +9,7 @@
     use ObjectivePHP\Serializer\Normalizer\NormalizerInterface;
     use ObjectivePHP\Serializer\Paginator\PaginatorInterface;
     use ObjectivePHP\Serializer\Resource\ResourceInterface;
+    use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
 
 //TODO: make classes for exception (we're having a lot of differents exceptions now)
     /**
@@ -71,12 +72,12 @@
             $this->getEncoder()->setFormatter($this->getFormatter());
             
             $normalizedData = $this->getNormalizer()->normalize($data);
-            
-            if ($normalizedData instanceof ResourceInterface)
+
+            if ($normalizedData instanceof SerializableResourceInterface)
             {
                 $serializedData = $this->getEncoder()->encode($normalizedData);
             }
-            
+
             return $serializedData;
             
         }

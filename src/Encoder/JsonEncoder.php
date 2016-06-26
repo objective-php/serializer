@@ -23,9 +23,9 @@ class JsonEncoder extends AbstractEncoder
      */
     public function encode(SerializableResourceInterface $data) : string
     {
-        $formatedData = $this->getFormatter()->format($data);
+        $formattedData = $this->getFormatter()->format($data);
 
-        return json_encode($formatedData);
+        return json_encode($formattedData);
     }
 
     /**

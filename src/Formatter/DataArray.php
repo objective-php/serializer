@@ -23,7 +23,9 @@
          */
         public function format(SerializableResourceInterface $resource) : array
         {
-            if ($resource instanceof Resource)
+            $dataArray = [];
+
+            if ($resource instanceof ResourceInterface)
             {
                 $dataArray = [
                     'resource_id' => $resource->getId(),
@@ -61,7 +63,6 @@
                     $dataArray[] = $data;
                 }
             }
-
 
             return $dataArray;
         }

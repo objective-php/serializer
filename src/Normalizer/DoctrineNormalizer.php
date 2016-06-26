@@ -53,21 +53,28 @@
             }
 
             // If we want to normalize an array of entity, we have to create a ResourceSet
-            if (is_array($data))
+            if($data)
             {
-                $resource = new ResourceSet();
-                $metaData = $this->entityManager->getClassMetadata(get_class($data[0]));
-
-                foreach ($data as $entity)
+                if (is_array($data) || $data  instanceof \Traversable)
                 {
-                    $resource->addChild($this->createResource($metaData, $entity));
+                    $resource = new ResourceSet();
+                    $metaData = $this->entityManager->getClassMetadata(get_class($data[0]));
+
+                    foreach ($data as $entity)
+                    {
+                        $resource->addChild($this->createResource($metaData, $entity));
+                    }
+
+                }
+                else
+                {
+                    $metaData = $this->entityManager->getClassMetadata(get_class($data));
+                    $resource = $this->createResource($metaData, $data);
+
                 }
             }
-            else
-            {
-                $metaData = $this->entityManager->getClassMetadata(get_class($data));
-                $resource = $this->createResource($metaData, $data);
-
+            else {
+                $resource = new ResourceSet;
             }
 
             return $resource;
@@ -77,8 +84,8 @@
          * @param ClassMetadata $metaData
          * @param               $entity
          *
-         * @return Resource
-         * @throws \Exception
+         * @return ResourceInterface|Resource
+         * @throws Exception
          */
         protected function createResource(ClassMetadata $metaData, $entity) : Resource
         {
