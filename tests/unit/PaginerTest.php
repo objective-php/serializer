@@ -9,7 +9,7 @@
     use Pagerfanta\Adapter\ArrayAdapter;
     use Pagerfanta\Pagerfanta;
     
-    class PaginerTest extends Test
+    class PaginatorTest extends Test
     {
         /**
          * @var UnitTester
@@ -20,7 +20,7 @@
         {
         }
 
-        public function testPaginerFantaAdapter()
+        public function testFantaAdapter()
         {
             $resources    = Stub::factory(Resource::class, 35);
             $arrayAdapter = new ArrayAdapter($resources);
