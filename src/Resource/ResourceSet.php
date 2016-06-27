@@ -13,7 +13,7 @@ use Traversable;
 class ResourceSet implements \IteratorAggregate, SerializableResourceInterface
 {
     /** @var array */
-    protected $resources;
+    protected $resources = [];
 
     /**
      * @var string
