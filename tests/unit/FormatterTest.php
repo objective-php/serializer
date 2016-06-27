@@ -33,9 +33,17 @@
 
         $this->assertInstanceOf(\ObjectivePHP\Serializer\Formatter\FormatterInterface::class, $dataArray);
         $this->assertEquals(
-            ['resource_id' => $resource->getId(),
-             'test' => ['data' => null],
-             'relations' => [['wow' => ['data' => ['such' => 'relation']]]]
+            [
+                'data' => [
+                        'test' => [
+                                'data'      => null,
+                                'relations' => [
+                                    [
+                                        'wow' => ['data' => ['such' => 'relation']],
+                                    ],
+                                ],
+                            ],
+                    ],
             ], $formatedData);
     }
 
