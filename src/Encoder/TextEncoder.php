@@ -6,8 +6,8 @@ namespace ObjectivePHP\Serializer\Encoder;
 use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
 
 /**
- * The class JsonEncoder is gonna use the formatter provided to transform
- * a resource into an encoded string.
+ * The class TextEncoder is gonna use the formatter provided to transform
+ * a resource into an serialized string.
  *
  * Class JsonEncoder
  * @package ObjectivePHP\Serializer\Encoder
@@ -25,7 +25,7 @@ class TextEncoder extends AbstractEncoder
     {
         $formattedData = $this->getFormatter()->format($data);
 
-        return (string) $formattedData;
+        return serialize($formattedData);
     }
 
     /**
