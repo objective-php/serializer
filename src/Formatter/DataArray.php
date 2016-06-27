@@ -5,6 +5,7 @@
 
     use ObjectivePHP\Serializer\Resource\Resource;
     use ObjectivePHP\Serializer\Resource\ResourceInterface;
+    use ObjectivePHP\Serializer\Resource\ResourceSet;
     use ObjectivePHP\Serializer\Resource\SerializableResourceInterface;
 
     /**
@@ -23,12 +24,10 @@
          */
         public function format(SerializableResourceInterface $resource) : array
         {
-            $dataArray = [];
 
-            if ($resource instanceof ResourceInterface)
+            if ($resource instanceof Resource)
             {
                 $dataArray = [
-                    'resource_id' => $resource->getId(),
 
                     $resource->getName() => [
                         'data' => $resource->getProperties(),
@@ -37,18 +36,20 @@
 
                 if (!empty($resource->getRelations()))
                 {
-                    $dataArray += ['relations' => $this->getRelations($resource)];
+                    $dataArray[$resource->getName()] += ['relations' => $this->getRelations($resource)];
                 }
+
+                $result['data'] = $dataArray;
             }
             else
             {
+                $result = [];
                 $dataArray = [];
 
                 /** @var Resource $subResource */
                 foreach ($resource as $subResource)
                 {
                     $data = [
-                        'resource_id' => $subResource->getId(),
 
                         $subResource->getName() => [
                             'data' => $subResource->getProperties(),
@@ -57,14 +58,26 @@
 
                     if (!empty($subResource->getRelations()))
                     {
-                        $data += ['relations' => $this->getRelations($subResource)];
+                        $data[$subResource->getName()] += ['relations' => $this->getRelations($subResource)];
                     }
 
                     $dataArray[] = $data;
                 }
+                $result['data'] = $dataArray;
+
+                if($this->hasPaginator()){
+                    $meta = [
+                            'total'    => $this->getPaginator()->getTotal(),
+                            'count'    => $this->getPaginator()->getCount(),
+                            'per_page' => $this->getPaginator()->getPerPage(),
+                            'last'     => $this->getPaginator()->getLastPage(),
+                    ];
+
+                    $result['meta'] = $meta;
+                }
             }
 
-            return $dataArray;
+            return $result;
         }
 
         /**
